@@ -43,8 +43,8 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 .sctb{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
 .sctb th{position:sticky;top:0;background:var(--bg2);color:var(--mu);font-weight:600;font-size:12px;text-align:left;padding:7px 10px;white-space:nowrap}
 .sctb td{padding:6px 10px;border-top:1px solid var(--line);white-space:nowrap}.sctb tr.b .zk{color:var(--buy)}.sctb tr.s .zk{color:var(--sell)}.sctb .emp{color:var(--mu);white-space:normal}
-.scn{font-size:12px;color:var(--fa);margin:8px 0 0}.scdis{font-size:12.5px;color:var(--mu);margin:12px 0 0}
-@media (min-width:720px){.scf{grid-template-columns:repeat(4,1fr);align-items:end}.scr{grid-template-columns:repeat(5,1fr)}.scr .sct{grid-column:auto}}
+.scn{font-size:12px;color:var(--fa);margin:8px 0 0}.schelp{margin:-5px 0 0}.scdis{font-size:12.5px;color:var(--mu);margin:12px 0 0}
+@media (min-width:720px){.scf{grid-template-columns:repeat(4,1fr);align-items:end}.schelp{grid-row:2}.scha{grid-column:3}.schp{grid-column:4}.scr{grid-template-columns:repeat(5,1fr)}.scr .sct{grid-column:auto}}
 </style>
 </head>
 <body>
@@ -66,8 +66,10 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
   <form id="scForm" class="scf" autocomplete="off">
     <label>Coin<select id="scCoin"></select></label>
     <label>Start month<select id="scStart"></select></label>
-    <label>Buy per accumulation month (USD)<input id="scAmt" type="number" inputmode="decimal" min="1" max="1000000000" step="any" value="100"></label>
-    <label>Sell per distribution month (% of coins held)<input id="scPct" type="number" inputmode="decimal" min="0" max="100" step="any" value="25"></label>
+    <label>Buy per accumulation month<input id="scAmt" type="number" inputmode="decimal" min="1" max="1000000000" step="any" value="100"></label>
+    <p class="scn schelp scha">USD</p>
+    <label>Sell per distribution month<input id="scPct" type="number" inputmode="decimal" min="0" max="100" step="any" value="25"></label>
+    <p class="scn schelp schp">% of coins held</p>
   </form>
   <p id="scErr" class="scerr" role="alert"></p>
   <div id="scOut" hidden>
