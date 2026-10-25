@@ -99,7 +99,7 @@ function fail(){cur=null;$('scOut').hidden=true;$('scErr').textContent=FAIL}
 function run(){
  var c=cur;if(!c)return;
  var t=c.T,z=c.z,amt=parseFloat($('scAmt').value),pct=parseFloat($('scPct').value),err=$('scErr');
- if(!(amt>=0.01&&amt<=1e9)||!(pct>=0&&pct<=100)){err.textContent='Enter an amount from $0.01 to $1,000,000,000 and a sell percent from 0 to 100.';$('scOut').hidden=true;return}
+ if(!(amt>=1&&amt<=1e9)||!(pct>=0&&pct<=100)){err.textContent='Enter an amount from $1 to $1,000,000,000 and a sell percent from 0 to 100.';$('scOut').hidden=true;return}
  err.textContent='';
  var s0=Math.max(first(c),c.t.indexOf($('scStart').value)),n=c.c.length,held=0,inv=0,cash=0,rows=[],nb=0,ns=0,i;
  for(i=s0;i<n;i++){var k=z[i],f=c.fill[i],p=f&&f.p;

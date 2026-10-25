@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SurfDCA · Monthly zone-based DCA calculator</title>
-<meta name="description" content="Zone-based DCA, monthly. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf.">
+<meta name="description" content="Monthly zone-based DCA calculator. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf.">
 <link rel="canonical" href="https://surfdca.github.io/">
-<meta property="og:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta property="og:site_name" content="SurfDCA"><meta property="og:description" content="Zone-based DCA, monthly. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf."><meta property="og:url" content="https://surfdca.github.io/">
-<meta name="twitter:card" content="summary"><meta name="twitter:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta name="twitter:description" content="Zone-based DCA, monthly. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf.">
+<meta property="og:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta property="og:site_name" content="SurfDCA"><meta property="og:description" content="Monthly zone-based DCA calculator. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf."><meta property="og:url" content="https://surfdca.github.io/">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta name="twitter:description" content="Monthly zone-based DCA calculator. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf.">
 <meta name="theme-color" content="#0b1626"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1626'/%3E%3Cpath d='M4 19c4-5 8-5 12 0s8 5 12 0' fill='none' stroke='%233d9bff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#0a1424;--bg2:#0d1a2e;--card:#101f36;--line:#1c2f4d;--tx:#e7eef7;--mu:#8ba0bb;--fa:#5f7593;--buy:#3d9bff;--sell:#ff9a1f;--r:14px}
@@ -65,7 +65,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
   <form id="scForm" class="scf" autocomplete="off">
     <label>Coin<select id="scCoin"></select></label>
     <label>Start month<select id="scStart"></select></label>
-    <label>Buy per accumulation month (USD)<input id="scAmt" type="number" inputmode="decimal" min="0.01" max="1000000000" step="any" value="100"></label>
+    <label>Buy per accumulation month (USD)<input id="scAmt" type="number" inputmode="decimal" min="1" max="1000000000" step="any" value="100"></label>
     <label>Sell per distribution month (% of coins held)<input id="scPct" type="number" inputmode="decimal" min="0" max="100" step="any" value="25"></label>
   </form>
   <p id="scErr" class="scerr" role="alert"></p>
