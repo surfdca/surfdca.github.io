@@ -98,13 +98,13 @@ function run(){
  err.textContent='';
  var s0=Math.max(first(c),c.t.indexOf($('scStart').value)),n=c.c.length,held=0,inv=0,rows=[],nb=0,i;
  for(i=s0;i<n;i++){var k=z[i],f=c.fill[i],p=f&&f.p;
-  if(k==='b'){var q=amt/p;held+=q;inv+=amt;nb++;rows.push([i,f,'+'+qty(q)+' '+t,held])}}
+  if(k==='b'){var q=amt/p;held+=q;inv+=amt;nb++;rows.push([i,f,qty(q)+' '+t,held])}}
  var last=c.c[n-1],val=held*last;
  $('scInv').textContent=usd(inv);$('scHeld').textContent=qty(held)+' '+t;
  $('scVal').textContent=usd(val);$('scValAt').textContent='at '+px(last)+(c.partial?', month in progress ('+dlbl(c.asOf)+')':', '+lbl(c.t[n-1])+' close');
  $('scSum').textContent=nb+' accumulation month'+(nb===1?'':'s')+' from '+nbsp(lbl(c.t[s0]))+' to '+nbsp(lbl(c.t[n-1]))+'.';
  var h='';rows.forEach(function(r){var cm=c.partial&&r[0]===n-1;
-  h+='<tr><td>'+lbl(c.t[r[0]])+(cm?'*':'')+'</td><td>'+r[1].k+' '+px(r[1].p)+'</td><td>'+r[2]+'</td><td>'+qtyT(r[3])+'</td></tr>'});
+  h+='<tr><td>'+lbl(c.t[r[0]])+(cm?'*':'')+'</td><td>'+px(r[1].p)+'</td><td>'+r[2]+'</td><td>'+qtyT(r[3])+'</td></tr>'});
  $('scRows').innerHTML=h||'<tr><td colspan="4" class="emp">No accumulation months in this range.</td></tr>';
  $('scPart').hidden=!(rows.length&&c.partial&&rows[rows.length-1][0]===n-1);
  $('scWick').hidden=c.wicks;

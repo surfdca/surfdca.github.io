@@ -42,11 +42,11 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 .sctw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;max-height:420px;overflow-y:auto}
 .sctb{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
 .sctb th{position:sticky;top:0;background:var(--bg2);color:var(--mu);font-weight:600;font-size:12px;text-align:left;padding:7px 10px;white-space:nowrap}
-.sctb td{padding:6px 10px;border-top:1px solid var(--line);white-space:nowrap}.sctb .emp{color:var(--mu);white-space:normal}
+.sctb td{padding:6px 10px;border-top:1px solid var(--line);white-space:nowrap}.sctb th:not(:first-child),.sctb td:not(:first-child){text-align:right}.sctb .emp{color:var(--mu);white-space:normal}
 .scn{font-size:12px;color:var(--fa);margin:8px 0 0}.schelp{margin:-5px 0 0}.scdis{font-size:12.5px;color:var(--mu);margin:12px 0 0}
 @media (min-width:720px){.scf{grid-template-columns:repeat(3,1fr);align-items:end}.scf>label{grid-row:1}.scba,.scha{grid-row:1;grid-column:3}.scha{align-self:end;justify-self:end;margin:0 12px 12px 0;line-height:18px;pointer-events:none}#scAmt{padding-right:46px;-moz-appearance:textfield;appearance:textfield}#scAmt::-webkit-inner-spin-button,#scAmt::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.scr{grid-template-columns:repeat(3,1fr)}.scr .sct{grid-column:auto}}
 @media (max-width:719px){.sctb{font-size:12px}.sctb th,.sctb td{padding-left:5px;padding-right:5px}.sctb th:first-child,.sctb td:first-child{padding-left:8px}}
-@media (max-width:359px){.scr>div{padding:9px 10px}.scr dd{font-size:16px}}
+@media (max-width:359px){.scr>div{padding:9px 10px}.scr dd{font-size:16px}.sctb{font-size:11px}.sctb th,.sctb td{padding-left:3px;padding-right:3px}.sctb th:first-child,.sctb td:first-child{padding-left:5px}.sctb th:last-child,.sctb td:last-child{padding-right:5px}}
 </style>
 </head>
 <body>
@@ -78,7 +78,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
       <div class="sct"><dt>Value now</dt><dd id="scVal"></dd><span id="scValAt" class="scat"></span></div>
     </dl>
     <p id="scSum" class="scsum"></p>
-    <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Fill</th><th>Coins</th><th>Total coins</th></tr></thead><tbody id="scRows"></tbody></table></div>
+    <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Price</th><th>Bought</th><th>Total coins</th></tr></thead><tbody id="scRows"></tbody></table></div>
     <p id="scPart" class="scn" hidden>* Month in progress, can still change.</p>
     <p id="scWick" class="scn" hidden>Monthly highs and lows couldn't load, so daily closes are used instead. A few months may differ.</p>
     <p class="scn">"Value now" uses the latest price.</p>
