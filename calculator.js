@@ -40,7 +40,7 @@ function build(T,cm,bm,bw){
  keys.sort();wkeys.sort();
  var M=keys.map(function(k){return mon[k]}),W=wkeys.map(function(k){return wk[k]}),E=engine(M,W);
  var lastDay=cm.length?cm[cm.length-1].time.slice(0,10):null;
- return{T:T,t:keys,c:M.map(function(m){return m.c}),z:E.z,sma:E.sma,fill:E.fill,partial:keys[keys.length-1]===nowK,
+ return{T:T,t:keys,o:M.map(function(m){return m.o}),c:M.map(function(m){return m.c}),z:E.z,sma:E.sma,fill:E.fill,partial:keys[keys.length-1]===nowK,
   asOf:live?dayOf(live):lastDay,wicks:!!(bm&&bm.length)}}
 
 /* ── Surf Indicator v5.3 monthly zone engine (port of f_v48_monthlyZones) ── */
@@ -86,8 +86,12 @@ function usd(v){var a=Math.abs(v);return (v<0?'−':'')+'$'+a.toLocaleString('en
 function px(v){return '$'+(v>=100?v.toLocaleString('en-US',{maximumFractionDigits:0}):v>=1?v.toLocaleString('en-US',{maximumFractionDigits:2}):v.toPrecision(4))}
 var DEC={BTC:6,LTC:4,DOGE:0};   /* fixed decimals per coin keep the columns even */
 function qty(v,t){var d=DEC[t];if(d==null)d=4;return v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
-function first(c){for(var i=0;i<c.sma.length;i++)if(c.sma[i]!=null)return i;return 0}
-function fillMonths(c){var s=$('scStart'),f=first(c),h='';   /* start resets to the coin's earliest month */
+function pct(v){var a=Math.abs(v)*100,s=a.toLocaleString('en-US',{minimumFractionDigits:a>=100?0:1,maximumFractionDigits:a>=100?0:1});   /* whole % from 100%, one decimal below */
+ if(s==='0'||s==='0.0')return '0%';return (v>0?'+':'−')+s+'%'}
+function setPct(el,v){el.textContent=pct(v);el.className='scret'+(pct(v)==='0%'?'':v>0?' up':' dn')}
+function first(c){var i,f=0;for(i=0;i<c.sma.length;i++)if(c.sma[i]!=null){f=i;break}
+ for(i=f;i<c.z.length;i++)if(c.z[i]==='b')return i;return f}   /* first accumulation month; zones still use the full history */
+function fillMonths(c){var s=$('scStart'),f=first(c),h='';   /* start resets to the coin's first accumulation month */
  for(var i=f;i<c.t.length;i++)h+='<option value="'+c.t[i]+'">'+lbl(c.t[i])+'</option>';s.innerHTML=h;
  s.value=c.t[f]}
 function fail(){cur=null;$('scOut').hidden=true;$('scErr').textContent=FAIL}
@@ -96,13 +100,17 @@ function run(){
  var t=c.T,z=c.z,amt=parseFloat($('scAmt').value),err=$('scErr');
  if(!(amt>=1&&amt<=1e9)){err.textContent='Enter an amount from $1 to $1,000,000,000.';$('scOut').hidden=true;return}
  err.textContent='';
- var s0=Math.max(first(c),c.t.indexOf($('scStart').value)),n=c.c.length,held=0,inv=0,rows=[],nb=0,i;
+ var s0=Math.max(first(c),c.t.indexOf($('scStart').value)),n=c.c.length,held=0,inv=0,rows=[],nb=0,fb=-1,i;
  for(i=s0;i<n;i++){var k=z[i],f=c.fill[i],p=f&&f.p;
-  if(k==='b'){var q=amt/p;held+=q;inv+=amt;nb++;rows.push([i,f,qty(q,t),held])}}
+  if(k==='b'){var q=amt/p;held+=q;inv+=amt;nb++;rows.push([i,f,qty(q,t),held]);if(fb<0)fb=i}}
  var last=c.c[n-1],val=held*last;
  $('scInv').textContent=usd(inv);$('scHeld').textContent=qty(held,t)+' '+t;
- $('scVal').textContent=usd(val);$('scValAt').textContent='at '+px(last)+(c.partial?', month in progress ('+dlbl(c.asOf)+')':', '+lbl(c.t[n-1])+' close');
- $('scSum').textContent=nb+' accumulation month'+(nb===1?'':'s')+' from '+nbsp(lbl(c.t[s0]))+' to '+nbsp(lbl(c.t[n-1]))+'.';
+ $('scVal').textContent=usd(val);$('scRet').hidden=!inv;if(inv)setPct($('scRet'),(val-inv)/inv);
+ /* plain monthly DCA: same amount every month at the open, from the first zone buy through the current month */
+ var ph=0,pi=0;if(fb>=0)for(i=fb;i<n;i++){ph+=amt/c.o[i];pi+=amt}
+ $('scPlain').hidden=!pi;if(pi){$('scPlainM').textContent=nbsp(lbl(c.t[fb]))+':';setPct($('scPlainR'),(ph*last-pi)/pi)}
+ $('scValAt').textContent='at '+px(last)+(c.partial?', month in progress ('+dlbl(c.asOf)+')':', '+lbl(c.t[n-1])+' close');
+ $('scSum').textContent=nb?nb+' accumulation month'+(nb===1?'':'s')+' from '+nbsp(lbl(c.t[fb]))+' to\u00a0'+nbsp(lbl(c.t[n-1]))+'.':s0===n-1?'No accumulation months since '+nbsp(lbl(c.t[s0]))+'.':'No accumulation months from '+nbsp(lbl(c.t[s0]))+' to\u00a0'+nbsp(lbl(c.t[n-1]))+'.';
  var h='';rows.forEach(function(r){var cm=c.partial&&r[0]===n-1;
   h+='<tr><td>'+lbl(c.t[r[0]])+(cm?'*':'')+'</td><td>'+px(r[1].p)+'</td><td>'+r[2]+'</td><td>'+qty(r[3],t)+'</td></tr>'});
  $('scRows').innerHTML=h||'<tr><td colspan="4" class="emp">No accumulation months in this range.</td></tr>';

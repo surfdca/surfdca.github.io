@@ -7,7 +7,7 @@
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SurfDCA"><meta name="twitter:description" content="Monthly zone-based DCA calculator">
 <meta name="theme-color" content="#0b1626"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1626'/%3E%3Cpath d='M4 19c4-5 8-5 12 0s8 5 12 0' fill='none' stroke='%233d9bff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
-:root{--bg:#0a1424;--bg2:#0d1a2e;--card:#101f36;--line:#1c2f4d;--tx:#e7eef7;--mu:#8ba0bb;--fa:#5f7593;--buy:#3d9bff;--warn:#ff9a1f;--r:14px}
+:root{--bg:#0a1424;--bg2:#0d1a2e;--card:#101f36;--line:#1c2f4d;--tx:#e7eef7;--mu:#8ba0bb;--fa:#5f7593;--buy:#3d9bff;--warn:#ff9a1f;--up:#34d27b;--dn:#ff6161;--r:14px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:linear-gradient(180deg,#0c1a30 0,var(--bg) 420px) var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--buy);text-decoration:none}a:hover{text-decoration:underline}
@@ -37,7 +37,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 .scerr{color:var(--warn);font-size:13.5px;margin:8px 0 0;min-height:0}.scerr:empty{display:none}
 .scr{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0 0}.scr>div{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 .scr dt{font-size:11.5px;color:var(--mu)}.scr dd{margin:0;font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}.scat{display:block;font-size:11.5px;color:var(--fa)}
-.scr .sct{grid-column:1/-1;border-color:rgba(61,155,255,.45)}
+.scr .sct{grid-column:1/-1;border-color:rgba(61,155,255,.45)}.scret{font-size:.8em;font-weight:600;margin-left:4px;white-space:nowrap}.scret.up{color:var(--up)}.scret.dn{color:var(--dn)}.scpl{margin:10px 0 0;font-size:13.5px;color:var(--mu)}.scpl .scret{font-size:inherit;margin-left:0}
 .scsum{font-size:13.5px;color:var(--mu);margin:12px 0 8px}
 .sctw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;max-height:420px;overflow-y:auto}
 .sctb{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
@@ -75,8 +75,9 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
     <dl class="scr">
       <div><dt>Total put in</dt><dd id="scInv"></dd></div>
       <div><dt>Total coins</dt><dd id="scHeld"></dd></div>
-      <div class="sct"><dt>Value now</dt><dd id="scVal"></dd><span id="scValAt" class="scat"></span></div>
+      <div class="sct"><dt>Value now</dt><dd><span id="scVal"></span> <span id="scRet" class="scret"></span></dd><span id="scValAt" class="scat"></span></div>
     </dl>
+    <p id="scPlain" class="scpl" hidden>Plain monthly DCA from <span class="nw"><span id="scPlainM"></span>&nbsp;<span id="scPlainR" class="scret"></span>.</span></p>
     <p id="scSum" class="scsum"></p>
     <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Price</th><th>Bought</th><th>Total coins</th></tr></thead><tbody id="scRows"></tbody></table></div>
     <p id="scPart" class="scn" hidden>* Month in progress, can still change.</p>
