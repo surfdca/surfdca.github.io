@@ -7,7 +7,7 @@
 <meta name="twitter:card" content="summary"><meta name="twitter:title" content="SurfDCA"><meta name="twitter:description" content="Monthly zone-based DCA calculator">
 <meta name="theme-color" content="#0b1626"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1626'/%3E%3Cpath d='M4 19c4-5 8-5 12 0s8 5 12 0' fill='none' stroke='%233d9bff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
-:root{--bg:#0a1424;--bg2:#0d1a2e;--card:#101f36;--line:#1c2f4d;--tx:#e7eef7;--mu:#8ba0bb;--fa:#5f7593;--buy:#3d9bff;--sell:#ff9a1f;--r:14px}
+:root{--bg:#0a1424;--bg2:#0d1a2e;--card:#101f36;--line:#1c2f4d;--tx:#e7eef7;--mu:#8ba0bb;--fa:#5f7593;--buy:#3d9bff;--warn:#ff9a1f;--r:14px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:linear-gradient(180deg,#0c1a30 0,var(--bg) 420px) var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--buy);text-decoration:none}a:hover{text-decoration:underline}
@@ -18,7 +18,7 @@ h1{font-size:40px;line-height:1.1;margin:14px 0 8px;letter-spacing:-.02em;font-w
 .subtitle{font-size:17.25px;color:rgba(231,238,247,.8);margin:0 0 14px;letter-spacing:.02em}
 .rules{display:grid;gap:10px;margin:34px 0 0}
 .rule{border:1px solid var(--line);border-left:3px solid var(--buy);background:var(--bg2);border-radius:10px;padding:10px 14px;font-size:15px}
-.rule.s{border-left-color:var(--sell)}.rule b{font-weight:600}
+.rule b{font-weight:600}
 section{padding:30px 0}
 h2{font-size:22px;margin:0 0 6px;letter-spacing:-.01em}
 .xwave{display:block;width:100%;height:48px;color:var(--buy);opacity:.28}
@@ -27,14 +27,14 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 #extras{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 10px;padding:30px 0}
 #extras .xblk{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 10px}
 .xsep{display:none}
-@media (min-width:720px){h1{font-size:54px}.hero{padding:64px 0 46px}.rules{grid-template-columns:1fr 1fr;margin-top:44px}}
+@media (min-width:720px){h1{font-size:54px}.hero{padding:64px 0 46px}.rules{margin-top:44px}}
 @media (min-width:860px){#extras,#extras .xblk{flex-wrap:nowrap;column-gap:28px}.xsep{display:block;width:1px;height:28px;background:var(--line);flex:none}}
-#calc{padding:34px 0 10px}#calc h2{margin-bottom:4px}.scintro{color:#c4d3e6;font-size:15px;margin:0 0 14px;max-width:760px}.scintro b{font-weight:600;color:var(--tx)}
+#calc{padding:34px 0 10px}#calc h2{margin-bottom:4px}.scintro{color:#c4d3e6;font-size:15px;margin:0 0 14px;max-width:760px}.scintro b{font-weight:600;color:var(--tx)}.nw{white-space:nowrap}
 .scf{display:grid;gap:10px;grid-template-columns:1fr;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
 .scf label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--mu)}
-.scf select,.scf input{font:inherit;font-size:15px;color:var(--tx);background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;width:100%;min-width:0}
+.scf select,.scf input{font:inherit;font-size:15px;line-height:1.4;height:42px;color:var(--tx);background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;width:100%;min-width:0}
 .scf select:focus,.scf input:focus{outline:2px solid var(--buy);outline-offset:1px;border-color:var(--buy)}
-.scerr{color:var(--sell);font-size:13.5px;margin:8px 0 0;min-height:0}.scerr:empty{display:none}
+.scerr{color:var(--warn);font-size:13.5px;margin:8px 0 0;min-height:0}.scerr:empty{display:none}
 .scr{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0 0}.scr>div{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
 .scr dt{font-size:11.5px;color:var(--mu)}.scr dd{margin:0;font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}.scat{display:block;font-size:11.5px;color:var(--fa)}
 .scr .sct{grid-column:1/-1;border-color:rgba(61,155,255,.45)}
@@ -42,51 +42,47 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 .sctw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;max-height:420px;overflow-y:auto}
 .sctb{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
 .sctb th{position:sticky;top:0;background:var(--bg2);color:var(--mu);font-weight:600;font-size:12px;text-align:left;padding:7px 10px;white-space:nowrap}
-.sctb td{padding:6px 10px;border-top:1px solid var(--line);white-space:nowrap}.sctb tr.b .zk{color:var(--buy)}.sctb tr.s .zk{color:var(--sell)}.sctb .emp{color:var(--mu);white-space:normal}
+.sctb td{padding:6px 10px;border-top:1px solid var(--line);white-space:nowrap}.sctb .emp{color:var(--mu);white-space:normal}
 .scn{font-size:12px;color:var(--fa);margin:8px 0 0}.schelp{margin:-5px 0 0}.scdis{font-size:12.5px;color:var(--mu);margin:12px 0 0}
-@media (min-width:720px){.scf{grid-template-columns:repeat(4,1fr);align-items:end}.schelp{grid-row:2}.scha{grid-column:3}.schp{grid-column:4}.scr{grid-template-columns:repeat(5,1fr)}.scr .sct{grid-column:auto}}
+@media (min-width:720px){.scf{grid-template-columns:repeat(3,1fr);align-items:end}.scf>label{grid-row:1}.scba,.scha{grid-row:1;grid-column:3}.scha{align-self:end;justify-self:end;margin:0 12px 12px 0;line-height:18px;pointer-events:none}#scAmt{padding-right:46px;-moz-appearance:textfield;appearance:textfield}#scAmt::-webkit-inner-spin-button,#scAmt::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.scr{grid-template-columns:repeat(3,1fr)}.scr .sct{grid-column:auto}}
+@media (max-width:359px){.scr>div{padding:9px 10px}.scr dd{font-size:16px}}
 </style>
 </head>
 <body>
 <div class="hero"><div class="wrap">
   <h1>SurfDCA</h1>
-  <p class="subtitle">Monthly zone-based DCA calculator</p>
+  <p class="subtitle">Monthly zone-based DCA&nbsp;calculator</p>
 </div><svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 C150 14 300 14 450 32 S750 52 900 32 S1100 14 1200 26" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M0 46 C200 30 350 30 520 44 S820 58 980 42 S1130 34 1200 40" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg><div class="wrap">
   <div class="rules">
     <div class="rule"><b style="color:var(--buy)">Accumulation zone</b> · price at or below the 200-week SMA, with monthly RSI at or below 50, or a bullish divergence.</div>
-    <div class="rule s"><b style="color:var(--sell)">Distribution zone</b> · price at or above 2× the 200-week SMA, with monthly RSI at or above 75, or a bearish divergence.</div>
   </div>
 </div></div>
 
 <main class="wrap">
 <section id="calc">
-  <p class="scintro">Shows what you'd have if you bought only in accumulation months and sold only in distribution months. Other&nbsp;months: nothing happens. Prices load live each visit.</p>
-  <p class="scn" style="margin:-6px 0 14px">Note: Buys and sells fill at the zone price the moment it's touched, or at the month's open if the month starts already in the zone.</p>
+  <p class="scintro">Shows what you'd have if you bought only in accumulation months. Other&nbsp;months: nothing&nbsp;happens.<br><span class="nw">Prices load live each visit.</span></p>
+  <p class="scn" style="margin:-6px 0 14px">Note: Buys fill at the zone price the moment it's touched, or at the month's open if the month starts already in&nbsp;the&nbsp;zone.</p>
   <p id="scLoad" class="scn" hidden>Loading prices…</p>
   <form id="scForm" class="scf" autocomplete="off">
     <label>Coin<select id="scCoin"></select></label>
     <label>Start month<select id="scStart"></select></label>
-    <label>Buy per accumulation month<input id="scAmt" type="number" inputmode="decimal" min="1" max="1000000000" step="any" value="100"></label>
+    <label class="scba">Buy per accumulation month<input id="scAmt" type="number" inputmode="decimal" min="1" max="1000000000" step="any" value="100"></label>
     <p class="scn schelp scha">USD</p>
-    <label>Sell per distribution month<input id="scPct" type="number" inputmode="decimal" min="0" max="100" step="any" value="25"></label>
-    <p class="scn schelp schp">% of coins held</p>
   </form>
   <p id="scErr" class="scerr" role="alert"></p>
   <div id="scOut" hidden>
     <dl class="scr">
       <div><dt>Total put in</dt><dd id="scInv"></dd></div>
       <div><dt>Coins held</dt><dd id="scHeld"></dd></div>
-      <div><dt>Value now</dt><dd id="scVal"></dd><span id="scValAt" class="scat"></span></div>
-      <div><dt>Cash taken out</dt><dd id="scCash"></dd></div>
-      <div class="sct"><dt>Total (value + cash)</dt><dd id="scTot"></dd></div>
+      <div class="sct"><dt>Value now</dt><dd id="scVal"></dd><span id="scValAt" class="scat"></span></div>
     </dl>
     <p id="scSum" class="scsum"></p>
-    <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Zone</th><th>Fill</th><th>Coins</th><th>Cash</th><th>Held after</th></tr></thead><tbody id="scRows"></tbody></table></div>
+    <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Fill</th><th>Coins</th><th>Cash</th><th>Held after</th></tr></thead><tbody id="scRows"></tbody></table></div>
     <p id="scPart" class="scn" hidden>* Month in progress, can still change.</p>
     <p id="scWick" class="scn" hidden>Monthly highs and lows couldn't load, so daily closes are used instead. A few months may differ.</p>
     <p class="scn">"Value now" uses the latest price.</p>
   </div>
-  <p class="scdis">Educational tool. Past results don't predict future results. Results don't include trading fees or taxes. Not financial advice.</p>
+  <p class="scdis">Educational tool. Past results don't predict future results. Results don't include trading fees or taxes. Not&nbsp;financial&nbsp;advice.</p>
 </section>
 </main>
 <div class="xwrap"><svg class="wave xwave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 C150 14 300 14 450 32 S750 52 900 32 S1100 14 1200 26" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M0 46 C200 30 350 30 520 44 S820 58 980 42 S1130 34 1200 40" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg><div class="wrap">
