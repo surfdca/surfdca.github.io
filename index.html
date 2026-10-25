@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SurfDCA · Monthly zone-based DCA calculator</title>
-<meta name="description" content="Monthly zone-based DCA calculator. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf.">
+<meta name="description" content="Monthly zone-based DCA calculator">
 <link rel="canonical" href="https://surfdca.github.io/">
-<meta property="og:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta property="og:site_name" content="SurfDCA"><meta property="og:description" content="Monthly zone-based DCA calculator. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf."><meta property="og:url" content="https://surfdca.github.io/">
-<meta name="twitter:card" content="summary"><meta name="twitter:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta name="twitter:description" content="Monthly zone-based DCA calculator. A free calculator that buys in accumulation zone months and sells a share in distribution zone months, by @_CryptoSurf.">
+<meta property="og:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta property="og:site_name" content="SurfDCA"><meta property="og:description" content="Monthly zone-based DCA calculator"><meta property="og:url" content="https://surfdca.github.io/">
+<meta name="twitter:card" content="summary"><meta name="twitter:title" content="SurfDCA · Monthly zone-based DCA calculator"><meta name="twitter:description" content="Monthly zone-based DCA calculator">
 <meta name="theme-color" content="#0b1626"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1626'/%3E%3Cpath d='M4 19c4-5 8-5 12 0s8 5 12 0' fill='none' stroke='%233d9bff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 :root{--bg:#0a1424;--bg2:#0d1a2e;--card:#101f36;--line:#1c2f4d;--tx:#e7eef7;--mu:#8ba0bb;--fa:#5f7593;--buy:#3d9bff;--sell:#ff9a1f;--r:14px}
@@ -60,7 +60,8 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 
 <main class="wrap">
 <section id="calc">
-  <p class="scintro">Buys when price touches the accumulation zone, or at the month's open if the month opens already in the zone. Sells the same way in distribution zones. Neutral months: nothing happens. Prices load live each visit.</p>
+  <p class="scintro">Shows what you'd have if you bought only in accumulation months and sold only in distribution months. Other months: nothing happens. Prices load live each visit.</p>
+  <p class="scn" style="margin:-6px 0 14px">Trades fill at the zone price the moment it's touched, or at the month's open if the month starts already in the zone.</p>
   <p id="scLoad" class="scn" hidden>Loading prices…</p>
   <form id="scForm" class="scf" autocomplete="off">
     <label>Coin<select id="scCoin"></select></label>
