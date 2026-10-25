@@ -84,8 +84,8 @@ function dlbl(d){return +d.slice(8,10)+'\u00a0'+MON[+d.slice(5,7)-1]+'\u00a0'+d.
 function nbsp(s){return s.replace(/ /g,'\u00a0')}
 function usd(v){var a=Math.abs(v);return (v<0?'−':'')+'$'+a.toLocaleString('en-US',{minimumFractionDigits:a>=1000?0:2,maximumFractionDigits:a>=1000?0:2})}
 function px(v){return '$'+(v>=100?v.toLocaleString('en-US',{maximumFractionDigits:0}):v>=1?v.toLocaleString('en-US',{maximumFractionDigits:2}):v.toPrecision(4))}
-function qty(v){return v===0?'0':v>=1000?v.toLocaleString('en-US',{maximumFractionDigits:0}):v>=1?v.toLocaleString('en-US',{maximumFractionDigits:4}):v.toPrecision(5)}
-function qtyT(v){return v>=1&&v<1000?v.toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4}):qty(v)}   /* table: fixed decimals keep the column even */
+var DEC={BTC:6,LTC:4,DOGE:0};   /* fixed decimals per coin keep the columns even */
+function qty(v,t){var d=DEC[t];if(d==null)d=4;return v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
 function first(c){for(var i=0;i<c.sma.length;i++)if(c.sma[i]!=null)return i;return 0}
 function fillMonths(c){var s=$('scStart'),f=first(c),h='';   /* start resets to the coin's earliest month */
  for(var i=f;i<c.t.length;i++)h+='<option value="'+c.t[i]+'">'+lbl(c.t[i])+'</option>';s.innerHTML=h;
@@ -98,13 +98,13 @@ function run(){
  err.textContent='';
  var s0=Math.max(first(c),c.t.indexOf($('scStart').value)),n=c.c.length,held=0,inv=0,rows=[],nb=0,i;
  for(i=s0;i<n;i++){var k=z[i],f=c.fill[i],p=f&&f.p;
-  if(k==='b'){var q=amt/p;held+=q;inv+=amt;nb++;rows.push([i,f,qtyT(q),held])}}
+  if(k==='b'){var q=amt/p;held+=q;inv+=amt;nb++;rows.push([i,f,qty(q,t),held])}}
  var last=c.c[n-1],val=held*last;
- $('scInv').textContent=usd(inv);$('scHeld').textContent=qty(held)+' '+t;
+ $('scInv').textContent=usd(inv);$('scHeld').textContent=qty(held,t)+' '+t;
  $('scVal').textContent=usd(val);$('scValAt').textContent='at '+px(last)+(c.partial?', month in progress ('+dlbl(c.asOf)+')':', '+lbl(c.t[n-1])+' close');
  $('scSum').textContent=nb+' accumulation month'+(nb===1?'':'s')+' from '+nbsp(lbl(c.t[s0]))+' to '+nbsp(lbl(c.t[n-1]))+'.';
  var h='';rows.forEach(function(r){var cm=c.partial&&r[0]===n-1;
-  h+='<tr><td>'+lbl(c.t[r[0]])+(cm?'*':'')+'</td><td>'+px(r[1].p)+'</td><td>'+r[2]+'</td><td>'+qtyT(r[3])+'</td></tr>'});
+  h+='<tr><td>'+lbl(c.t[r[0]])+(cm?'*':'')+'</td><td>'+px(r[1].p)+'</td><td>'+r[2]+'</td><td>'+qty(r[3],t)+'</td></tr>'});
  $('scRows').innerHTML=h||'<tr><td colspan="4" class="emp">No accumulation months in this range.</td></tr>';
  $('scPart').hidden=!(rows.length&&c.partial&&rows[rows.length-1][0]===n-1);
  $('scWick').hidden=c.wicks;
