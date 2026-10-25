@@ -55,14 +55,14 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
   <p class="subtitle">Monthly zone-based DCA&nbsp;calculator</p>
 </div><svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 C150 14 300 14 450 32 S750 52 900 32 S1100 14 1200 26" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M0 46 C200 30 350 30 520 44 S820 58 980 42 S1130 34 1200 40" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/></svg><div class="wrap">
   <div class="rules">
-    <div class="rule"><b style="color:var(--buy)">Accumulation zone</b> · price at or below the 200-week SMA, with monthly RSI at or below 50, or a bullish divergence.</div>
+    <div class="rule"><b style="color:var(--buy)">Accumulation zone</b> · price at or below the 200-week SMA, with monthly RSI of&nbsp;50&nbsp;or&nbsp;less, or&nbsp;a&nbsp;bullish&nbsp;divergence.</div>
   </div>
 </div></div>
 
 <main class="wrap">
 <section id="calc">
   <p class="scintro">Shows what you'd have if you bought only in accumulation months. <span class="nw">Other&nbsp;months: nothing&nbsp;happens.</span><br><span class="nw">Prices load live each visit.</span></p>
-  <p class="scn" style="margin:-6px 0 14px">Note: Buys fill at the zone price the moment it's touched, or at the month's open if the month starts already in&nbsp;the&nbsp;zone.</p>
+  <p class="scn" style="margin:-6px 0 14px">Note: Buys fill at the zone price the moment it's touched, or at the month's open if the month starts already&nbsp;inside&nbsp;it.</p>
   <p id="scLoad" class="scn" hidden>Loading prices…</p>
   <form id="scForm" class="scf" autocomplete="off">
     <label>Coin<select id="scCoin"></select></label>
@@ -74,7 +74,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
   <div id="scOut" hidden>
     <dl class="scr">
       <div><dt>Total put in</dt><dd id="scInv"></dd></div>
-      <div><dt>Coins held</dt><dd id="scHeld"></dd></div>
+      <div><dt>Total coins</dt><dd id="scHeld"></dd></div>
       <div class="sct"><dt>Value now</dt><dd id="scVal"></dd><span id="scValAt" class="scat"></span></div>
     </dl>
     <p id="scSum" class="scsum"></p>
