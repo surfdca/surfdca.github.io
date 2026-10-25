@@ -12,7 +12,7 @@
 body{margin:0;background:linear-gradient(180deg,#0c1a30 0,var(--bg) 420px) var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:var(--buy);text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:1080px;margin:0 auto;padding:0 18px}
-.hero{position:relative;padding:44px 0 34px;overflow:hidden}
+.hero{position:relative;padding:44px 0 0;overflow:hidden}
 .hero .wave{display:block;width:100%;height:48px;margin:6px 0 0;color:var(--buy);opacity:.28}
 h1{font-size:40px;line-height:1.1;margin:14px 0 8px;letter-spacing:-.02em;font-weight:700}
 .subtitle{font-size:17.25px;color:rgba(231,238,247,.8);margin:0 0 14px;letter-spacing:.02em}
@@ -27,7 +27,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 #extras{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 10px;padding:30px 0}
 #extras .xblk{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px 10px}
 .xsep{display:none}
-@media (min-width:720px){h1{font-size:54px}.hero{padding:64px 0 46px}.rules{margin-top:44px}}
+@media (min-width:720px){h1{font-size:54px}.hero{padding:64px 0 10px}.rules{margin-top:44px}}
 @media (min-width:860px){#extras,#extras .xblk{flex-wrap:nowrap;column-gap:28px}.xsep{display:block;width:1px;height:28px;background:var(--line);flex:none}}
 #calc{padding:34px 0 10px}#calc h2{margin-bottom:4px}.scintro{color:#c4d3e6;font-size:15px;margin:0 0 14px;max-width:760px}.scintro b{font-weight:600;color:var(--tx)}.nw{white-space:nowrap}
 .scf{display:grid;gap:10px;grid-template-columns:1fr;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
@@ -45,6 +45,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 .sctb td{padding:6px 10px;border-top:1px solid var(--line);white-space:nowrap}.sctb .emp{color:var(--mu);white-space:normal}
 .scn{font-size:12px;color:var(--fa);margin:8px 0 0}.schelp{margin:-5px 0 0}.scdis{font-size:12.5px;color:var(--mu);margin:12px 0 0}
 @media (min-width:720px){.scf{grid-template-columns:repeat(3,1fr);align-items:end}.scf>label{grid-row:1}.scba,.scha{grid-row:1;grid-column:3}.scha{align-self:end;justify-self:end;margin:0 12px 12px 0;line-height:18px;pointer-events:none}#scAmt{padding-right:46px;-moz-appearance:textfield;appearance:textfield}#scAmt::-webkit-inner-spin-button,#scAmt::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.scr{grid-template-columns:repeat(3,1fr)}.scr .sct{grid-column:auto}}
+@media (max-width:719px){.sctb{font-size:12px}.sctb th,.sctb td{padding-left:5px;padding-right:5px}.sctb th:first-child,.sctb td:first-child{padding-left:8px}.sctb th:last-child,.sctb td:last-child{padding-right:8px}}
 @media (max-width:359px){.scr>div{padding:9px 10px}.scr dd{font-size:16px}}
 </style>
 </head>
@@ -77,7 +78,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
       <div class="sct"><dt>Value now</dt><dd id="scVal"></dd><span id="scValAt" class="scat"></span></div>
     </dl>
     <p id="scSum" class="scsum"></p>
-    <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Fill</th><th>Coins</th><th>Cash</th><th>Held after</th></tr></thead><tbody id="scRows"></tbody></table></div>
+    <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Fill</th><th>Coins</th><th>Held after</th></tr></thead><tbody id="scRows"></tbody></table></div>
     <p id="scPart" class="scn" hidden>* Month in progress, can still change.</p>
     <p id="scWick" class="scn" hidden>Monthly highs and lows couldn't load, so daily closes are used instead. A few months may differ.</p>
     <p class="scn">"Value now" uses the latest price.</p>
