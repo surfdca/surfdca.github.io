@@ -85,10 +85,11 @@ function nbsp(s){return s.replace(/ /g,'\u00a0')}
 function usd(v){var a=Math.abs(v);return (v<0?'−':'')+'$'+a.toLocaleString('en-US',{minimumFractionDigits:a>=1000?0:2,maximumFractionDigits:a>=1000?0:2})}
 function px(v){return '$'+(v>=100?v.toLocaleString('en-US',{maximumFractionDigits:0}):v>=1?v.toLocaleString('en-US',{maximumFractionDigits:2}):v.toPrecision(4))}
 function qty(v){return v===0?'0':v>=1000?v.toLocaleString('en-US',{maximumFractionDigits:0}):v>=1?v.toLocaleString('en-US',{maximumFractionDigits:4}):v.toPrecision(5)}
+function qtyT(v){return v>=1&&v<1000?v.toLocaleString('en-US',{minimumFractionDigits:4,maximumFractionDigits:4}):qty(v)}   /* table: fixed decimals keep the column even */
 function first(c){for(var i=0;i<c.sma.length;i++)if(c.sma[i]!=null)return i;return 0}
-function fillMonths(c){var s=$('scStart'),prev=s.value||'2018-01',f=first(c),h='';
+function fillMonths(c){var s=$('scStart'),f=first(c),h='';   /* start resets to the coin's earliest month */
  for(var i=f;i<c.t.length;i++)h+='<option value="'+c.t[i]+'">'+lbl(c.t[i])+'</option>';s.innerHTML=h;
- s.value=c.t.indexOf(prev)>=f?prev:c.t[f]}
+ s.value=c.t[f]}
 function fail(){cur=null;$('scOut').hidden=true;$('scErr').textContent=FAIL}
 function run(){
  var c=cur;if(!c)return;
@@ -103,7 +104,7 @@ function run(){
  $('scVal').textContent=usd(val);$('scValAt').textContent='at '+px(last)+(c.partial?', month in progress ('+dlbl(c.asOf)+')':', '+lbl(c.t[n-1])+' close');
  $('scSum').textContent=nb+' accumulation month'+(nb===1?'':'s')+' from '+nbsp(lbl(c.t[s0]))+' to '+nbsp(lbl(c.t[n-1]))+'.';
  var h='';rows.forEach(function(r){var cm=c.partial&&r[0]===n-1;
-  h+='<tr><td>'+lbl(c.t[r[0]])+(cm?'*':'')+'</td><td>'+r[1].k+' '+px(r[1].p)+'</td><td>'+r[2]+'</td><td>'+qty(r[3])+'</td></tr>'});
+  h+='<tr><td>'+lbl(c.t[r[0]])+(cm?'*':'')+'</td><td>'+r[1].k+' '+px(r[1].p)+'</td><td>'+r[2]+'</td><td>'+qtyT(r[3])+'</td></tr>'});
  $('scRows').innerHTML=h||'<tr><td colspan="4" class="emp">No accumulation months in this range.</td></tr>';
  $('scPart').hidden=!(rows.length&&c.partial&&rows[rows.length-1][0]===n-1);
  $('scWick').hidden=c.wicks;
