@@ -29,22 +29,22 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
 .xsep{display:none}
 @media (min-width:720px){h1{font-size:54px}.hero{padding:64px 0 10px}.rules{margin-top:44px}}
 @media (min-width:860px){#extras,#extras .xblk{flex-wrap:nowrap;column-gap:28px}.xsep{display:block;width:1px;height:28px;background:var(--line);flex:none}}
-#calc{padding:34px 0 10px}#calc h2{margin-bottom:4px}.scintro{color:#c4d3e6;font-size:15px;margin:0 0 14px;max-width:760px}.scintro b{font-weight:600;color:var(--tx)}.nw{white-space:nowrap}
+#calc{padding:34px 0 10px}#calc h2{margin-bottom:4px}.scintro{color:#c4d3e6;font-size:15px;margin:0 0 14px;max-width:760px}.scintro b{font-weight:600;color:var(--tx)}.nw{white-space:nowrap}.scch{margin:0 0 10px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:8px 8px 6px}.scch svg{display:block;width:100%;height:auto}.scchl{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mu);margin:4px 2px 0}.scchz{width:10px;height:10px;border-radius:2px;background:rgba(61,155,255,.3)}.scchb{display:flex;align-items:center;gap:6px;margin-left:10px}.scchb[hidden]{display:none}.scsh{margin-left:auto;margin-right:-2px;padding:3px 12px;font:inherit;font-size:12.5px;cursor:pointer}.scsh[hidden]{display:none}.scsh:hover{border-color:var(--buy)}.scchd{width:7px;height:7px;border-radius:50%;background:var(--buy)}
 .scf{display:grid;gap:10px;grid-template-columns:1fr;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
 .scf label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--mu)}
 .scf select,.scf input{font:inherit;font-size:15px;line-height:1.4;height:42px;color:var(--tx);background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:8px 10px;width:100%;min-width:0}
 .scf select:focus,.scf input:focus{outline:2px solid var(--buy);outline-offset:1px;border-color:var(--buy)}
 .scerr{color:var(--warn);font-size:13.5px;margin:8px 0 0;min-height:0}.scerr:empty{display:none}
 .scr{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0 0}.scr>div{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
-.scr dt{font-size:11.5px;color:var(--mu)}.scr dd{margin:0;font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}.scat{display:block;font-size:11.5px;color:var(--fa)}
+.scr dt{font-size:11.5px;color:var(--mu)}.scr dd{margin:0;font-weight:600;font-size:18px;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.scr>div{min-width:0}.scat{display:block;font-size:11.5px;color:var(--fa)}
 .scr .sct{grid-column:1/-1;border-color:rgba(61,155,255,.45)}.scret{font-size:.8em;font-weight:600;margin-left:4px;white-space:nowrap}.scret.up{color:var(--up)}.scret.dn{color:var(--dn)}.scpl{margin:10px 0 0;font-size:13.5px;color:var(--mu)}.scpl .scret{font-size:inherit;margin-left:0}
 .scsum{font-size:13.5px;color:var(--mu);margin:12px 0 8px}
 .sctw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;max-height:420px;overflow-y:auto}
 .sctb{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
 .sctb th{position:sticky;top:0;background:var(--bg2);color:var(--mu);font-weight:600;font-size:12px;text-align:left;padding:7px 10px;white-space:nowrap}
 .sctb td{padding:6px 10px;border-top:1px solid var(--line);white-space:nowrap}.sctb th:not(:first-child),.sctb td:not(:first-child){text-align:right}.sctb .emp{color:var(--mu);white-space:normal}
-.scn{font-size:12px;color:var(--fa);margin:8px 0 0}.schelp{margin:-5px 0 0}.scdis{font-size:12.5px;color:var(--mu);margin:12px 0 0}
-@media (min-width:720px){.scf{grid-template-columns:repeat(3,1fr);align-items:end}.scf>label{grid-row:1}.scba,.scha{grid-row:1;grid-column:3}.scha{align-self:end;justify-self:end;margin:0 12px 12px 0;line-height:18px;pointer-events:none}#scAmt{padding-right:46px;-moz-appearance:textfield;appearance:textfield}#scAmt::-webkit-inner-spin-button,#scAmt::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.scr{grid-template-columns:repeat(3,1fr)}.scr .sct{grid-column:auto}}
+.scn{font-size:12px;color:var(--fa);margin:8px 0 0}.schelp{margin:-5px 0 0}.scper{margin:-7px 0 0}.scdis{font-size:12.5px;color:var(--mu);margin:12px 0 0}
+@media (min-width:720px){.scf{grid-template-columns:repeat(3,1fr);align-items:end}.scf>label{grid-row:1}.scba,.scha{grid-row:1;grid-column:3}.scper{grid-row:2;grid-column:3;margin:-4px 0 0}.scha{align-self:end;justify-self:end;margin:0 12px 12px 0;line-height:18px;pointer-events:none}#scAmt{padding-right:46px;-moz-appearance:textfield;appearance:textfield}#scAmt::-webkit-inner-spin-button,#scAmt::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.scr{grid-template-columns:repeat(3,1fr)}.scr .sct{grid-column:auto}}
 @media (max-width:719px){.sctb{font-size:12px}.sctb th,.sctb td{padding-left:5px;padding-right:5px}.sctb th:first-child,.sctb td:first-child{padding-left:8px}}
 @media (max-width:359px){.scr>div{padding:9px 10px}.scr dd{font-size:16px}.sctb{font-size:11px}.sctb th,.sctb td{padding-left:3px;padding-right:3px}.sctb th:first-child,.sctb td:first-child{padding-left:5px}.sctb th:last-child,.sctb td:last-child{padding-right:5px}}
 </style>
@@ -67,8 +67,9 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
   <form id="scForm" class="scf" autocomplete="off">
     <label>Coin<select id="scCoin"></select></label>
     <label>Start month<select id="scStart"></select></label>
-    <label class="scba">Buy per accumulation month<input id="scAmt" type="number" inputmode="decimal" min="1" max="1000000000" step="any" value="100"></label>
+    <label class="scba">Budget<input id="scAmt" type="number" inputmode="decimal" min="1" max="1000000000" step="any" value="10000"></label>
     <p class="scn schelp scha">USD</p>
+    <p id="scPer" class="scn scper" hidden></p>
   </form>
   <p id="scErr" class="scerr" role="alert"></p>
   <div id="scOut" hidden>
@@ -77,8 +78,8 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding:28px 0 40px;colo
       <div><dt>Total coins</dt><dd id="scHeld"></dd></div>
       <div class="sct"><dt>Value now</dt><dd><span id="scVal"></span> <span id="scRet" class="scret"></span></dd><span id="scValAt" class="scat"></span></div>
     </dl>
-    <p id="scPlain" class="scpl" hidden>Plain monthly DCA from <span class="nw"><span id="scPlainM"></span>&nbsp;<span id="scPlainR" class="scret"></span>.</span></p>
-    <p id="scSum" class="scsum"></p>
+    <p id="scPlain" class="scpl" hidden>Same&nbsp;<span id="scCapAmt"></span>&nbsp;budget from&nbsp;<span id="scPlainM"></span> <span class="nw">SurfDCA <span id="scCapZ"></span> (<span id="scCapZR" class="scret"></span>),</span> <span class="nw">monthly DCA <span id="scCapP"></span> (<span id="scPlainR" class="scret"></span>).</span></p><p id="scPlainN" class="scn" style="margin:4px 0 0;text-wrap:pretty" hidden>Both start with this budget. SurfDCA spends&nbsp;it only in accumulation months; monthly&nbsp;DCA spreads equal amounts over the whole&nbsp;period.</p>
+    <p id="scSum" class="scsum"></p><figure id="scCh" class="scch" hidden><div id="scChS"></div><figcaption class="scchl"><span class="scchz"></span>Accumulation zone<span id="scChB" class="scchb"><span class="scchd"></span>Buy</span><button id="scShare" type="button" class="tool scsh" hidden>Share</button></figcaption></figure>
     <div class="sctw"><table class="sctb"><thead><tr><th>Month</th><th>Price</th><th>Bought</th><th>Total coins</th></tr></thead><tbody id="scRows"></tbody></table></div>
     <p id="scPart" class="scn" hidden>* Month in progress, can still change.</p>
     <p id="scWick" class="scn" hidden>Monthly highs and lows couldn't load, so daily closes are used instead. A few months may differ.</p>
