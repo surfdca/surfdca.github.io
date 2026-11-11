@@ -57,18 +57,13 @@ html, body {
 .logo:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
 .coins {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 6px 22px;
+  gap: 0.15rem 0.4rem;
   margin-left: auto;
   font: 650 13px/1 var(--font);
   letter-spacing: 0.05em;
-}
-.coin-group {
-  display: flex;
-  align-items: center;
-  gap: 0.15rem 0.4rem;
 }
 .coins a {
   color: #8a919c;
@@ -90,27 +85,6 @@ html, body {
   pointer-events: none;
   user-select: none;
 }
-.coins-select-wrap { display: none; margin-left: auto; }
-.coins-select {
-  appearance: none;
-  margin: 0;
-  border: 1px solid var(--line);
-  background-color: var(--card);
-  color: var(--ink);
-  font: 650 13px/1 var(--font);
-  letter-spacing: 0.04em;
-  padding: 8px 28px 8px 10px;
-  min-height: 36px;
-  border-radius: 8px;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5 L6 6.5 L11 1.5' fill='none' stroke='%238a919c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 9px center;
-}
-.coins-select:focus {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
-}
-
 /* Soft wave behind the hero only — not behind the charts. */
 .page {
   max-width: 1248px;
@@ -257,20 +231,6 @@ html, body {
   height: auto;
   vertical-align: top;
 }
-.card-sentence {
-  margin: 14px 2px 0;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.4;
-  color: var(--ink);
-  max-width: 44rem;
-  text-wrap: pretty;
-}
-.card-sentence .count {
-  color: var(--blue);
-  font-weight: 650;
-}
-
 /* Bottom info: three columns on desktop, stacked on mobile */
 .info {
   margin: 8px 0 0;
@@ -314,9 +274,43 @@ html, body {
   background: var(--blue);
   opacity: 0.7;
 }
-.gtk-cap { display: none; }
-html.is-cap .gtk-coin { display: none; }
-html.is-cap .gtk-cap { display: list-item; }
+/* Links row (tip + Kraken + TradingView) above the footer */
+.links-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 10px;
+  max-width: 1248px;
+  margin: 8px auto 0;
+  padding: 16px 16px 4px;
+}
+.links-pair {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px 10px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font: 600 13px/1.2 var(--font);
+  color: var(--ink);
+  background: var(--card);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pill:hover {
+  border-color: #3a4554;
+  color: var(--ink);
+}
+.pill:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
 
 /* Footer */
 .site-footer {
@@ -347,9 +341,9 @@ body.share-only .site-header,
 body.share-only .wave,
 body.share-only .hero-wave,
 body.share-only .intro,
-body.share-only .card-sentence,
 body.share-only .howto,
 body.share-only .info,
+body.share-only .links-row,
 body.share-only .site-footer { display: none; }
 body.share-only .page { max-width: none; padding: 0; }
 body.share-only .card { display: none; margin: 0; }
@@ -361,9 +355,6 @@ body.share-only .share-target .stage { border-radius: 0; }
   .topline { font-size: 32px; max-width: none; }
   .lede { font-size: 17px; }
   .intro { margin-bottom: 24px; padding: 22px 0 44px; }
-  .coins { display: none; }
-  .coins-select-wrap { display: block; }
-  .card-sentence { font-size: 18px; }
   .info {
     grid-template-columns: 1fr;
     gap: 22px;
@@ -381,8 +372,8 @@ body.share-only .share-target .stage { border-radius: 0; }
   .toggle { flex: 1 1 auto; }
   .toggle button { flex: 1 1 0; min-width: 0; }
   .share { flex: 0 0 auto; }
-  .card-sentence { font-size: 17px; }
   .info li { font-size: 14px; }
   .note { font-size: 12px; }
+  .links-row { padding: 12px 12px 2px; }
   .site-footer { padding: 8px 12px 22px; }
 }

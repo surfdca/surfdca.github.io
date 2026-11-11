@@ -1,11 +1,9 @@
-/* Coin / index vs 200W / 3Y / 2Y SMA — weekly close line, Relative / Price toggle.
-   Local preview only. Chosen with ?coin=btc|ltc|doge|totales|total2es|total3es|others
-   (default btc). Coins use a cached TradingView weekly series plus one live
-   Binance *USDT fetch (no key), falling back to the cached close. Market-cap
-   indexes have no live feed: the last weekly close drives the top line, metric
-   and dot. On-page mobile: CSS width + DPR backing store. Share PNG is always
-   the 1200×675 desktop card. Live-dot radius equals the line width (CSS/layout
-   px, then multiplied only by DPR). */
+/* Coin vs 200W / 3Y / 2Y SMA — weekly close line, Relative / Price toggle.
+   Chosen with ?coin=btc|ltc|doge (default btc). Each coin uses a cached
+   TradingView weekly series plus one live Binance *USDT fetch (no key),
+   falling back to the cached close. On-page mobile: CSS width + DPR backing
+   store. Share PNG is always the 1200×675 desktop card. Live-dot radius
+   equals the line width (CSS/layout px, then multiplied only by DPR). */
 (function () {
   "use strict";
   const FONT = 'system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif';
@@ -17,9 +15,9 @@
     Pd: 56, Rgt: 4,
     tt: 36, ty: 82, wm: 20, wmc: "#8a919c",
     fs: 17.5, T: 108, B: 478, yr: 26,
-    lg: 19.5, ly: 545, ny: 572, ml: 16, mlc: "#a7adb6", mv: 30,
+    lg: 19.5, ly: 549, ny: 576, ml: 16, mlc: "#a7adb6", mv: 30,
     mly: 26, mvy: 62,
-    lw: 3, smaw: 1.75, yearStep: 1,
+    lw: 3, smaw: 1.75, yearStep: 2,
   };
   const DAY = 864e5, PADW = 43, MOBILE_MAX = 720;
   const BN = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
@@ -30,10 +28,6 @@
            liveUrl: BN + "LTCUSDT", liveSrc: "Binance LTCUSDT" },
     doge: { id: "doge", name: "DOGE", data: "data/doge-weekly.json", kind: "coin", unit: "Price",
             liveUrl: BN + "DOGEUSDT", liveSrc: "Binance DOGEUSDT" },
-    totales: { id: "totales", name: "TOTALES", data: "data/totales-weekly.json", kind: "cap", unit: "Cap" },
-    total2es: { id: "total2es", name: "TOTAL2ES", data: "data/total2es-weekly.json", kind: "cap", unit: "Cap" },
-    total3es: { id: "total3es", name: "TOTAL3ES", data: "data/total3es-weekly.json", kind: "cap", unit: "Cap" },
-    others: { id: "others", name: "OTHERS", data: "data/others-weekly.json", kind: "cap", unit: "Cap" },
   };
   const Q = new URLSearchParams(location.search);
   const COIN = COIN_DEFS[(Q.get("coin") || "btc").toLowerCase()] || COIN_DEFS.btc;
@@ -111,37 +105,7 @@
     const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     return String(+m[3]) + " " + months[+m[2] - 1] + " " + m[1];
   }
-  // Weekly bar end (Sunday) = Monday start + 6 days.
-  function fmtBarEnd(iso) {
-    const t0 = ms(iso);
-    if (!isFinite(t0)) return fmtDay(iso);
-    const d = new Date(t0 + 6 * DAY);
-    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    return d.getUTCDate() + " " + months[d.getUTCMonth()] + " " + d.getUTCFullYear();
-  }
   function ms(s) { return Date.parse(s + "T00:00:00Z"); }
-  function parseSnapshot(pass, source) {
-    const s = (pass || "") + " " + (source || "");
-    const m = /(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2})(?::(\d{2}))?\s*(CET|CEST|UTC)?/.exec(s);
-    if (!m) return null;
-    const tz = m[4] === "CEST" ? "+02:00" : (m[4] === "UTC" ? "Z" : "+01:00");
-    const iso = m[1] + "T" + m[2] + ":" + (m[3] || "00") + (tz === "Z" ? "Z" : tz);
-    const d = new Date(iso);
-    return isFinite(d.getTime()) ? d : null;
-  }
-  // For no-live series: drop a trailing week if it is still in progress
-  // at the data snapshot (bar start + 7 days > snapshot time).
-  function dropInProgressWeeks(W, snapshot) {
-    if (!snapshot || !W || !W.length) return W || [];
-    const out = W.slice();
-    const snap = snapshot.getTime();
-    while (out.length) {
-      const start = ms(out[out.length - 1][0]);
-      if (!(start > 0) || start + 7 * DAY > snap) out.pop();
-      else break;
-    }
-    return out;
-  }
   function pad2(n) { return String(n).padStart(2, "0"); }
   function fmtHM(d) { return pad2(d.getHours()) + ":" + pad2(d.getMinutes()); }
   function fmtCached(pass) {
@@ -192,7 +156,8 @@
     const tt = 18, ty = 28, wm = 12, fs = 11;
     const T = 44, plotH = Math.max(190, Math.round(W * 0.56));
     const B = T + plotH, yr = 17, lg = 13;
-    const ly1 = B + yr + 14;
+    // Clear gap between year-label glyphs and the legend (~16px, mid 14-18).
+    const ly1 = B + yr + 29;
     const ly2 = isPrice ? ly1 + 17 : ly1;
     const ny = ly2 + 12;
     const H = ny + 50;
@@ -204,7 +169,7 @@
       fs: fs, T: T, B: B, yr: yr,
       lg: lg, ly: ly2, ly1: ly1, ny: ny,
       ml: 10, mlc: "#a7adb6", mv: 17, mly: 18, mvy: 38,
-      lw: 2.25, smaw: 1.5, yearStep: 2,
+      lw: 2.25, smaw: 1.5, yearStep: 4,
     };
   }
 
@@ -261,11 +226,8 @@
       };
     }
     const f = Math.max(fOwn, fShow != null ? fShow : fOwn);
-    // Coins keep an open last bar (live) and exclude it from counts.
-    // No-live series have already dropped any in-progress week, so the
-    // last bar is complete and is included in the at/below counts.
-    const countThroughLast = !COIN.liveUrl;
-    const countEnd = countThroughLast ? W.length : W.length - 1;
+    // Keep an open last bar (live) and exclude it from at/below counts.
+    const countEnd = W.length - 1;
     let closedN = 0, closedBelow = 0;
     for (let i = f; i < countEnd; i++) {
       closedN++;
@@ -284,12 +246,11 @@
       lastSma: sm[sm.length - 1],
       start: W[f][0],
       lastWeek: W[W.length - 1][0],
-      lastCloseEnd: W.length ? fmtBarEnd(W[W.length - 1][0]) : null,
       closedN: closedN,
       closedBelow: closedBelow,
       liveBelow: liveBelow,
       plottedN: W.length - f,
-      plottedBelow: countThroughLast ? closedBelow : closedBelow + (liveBelow ? 1 : 0),
+      plottedBelow: closedBelow + (liveBelow ? 1 : 0),
     };
   }
 
@@ -403,26 +364,30 @@
     F(400, ST.fs);
     const y0 = new Date(tStart).getUTCFullYear();
     const y1 = new Date(tEnd).getUTCFullYear();
-    const step = ST.yearStep || 1;
+    const step = ST.yearStep || 2;
     let yy0 = y0;
-    if (step > 1 && yy0 % 2) yy0 += 1;
+    const rem = ((yy0 % step) + step) % step;
+    if (rem) yy0 += step - rem;
+    const minGap = ST.mobile ? 8 : 10;
+    let lastRight = L - minGap;
     for (let yy = yy0; yy <= y1; yy += step) {
       const tw = x.measureText(String(yy)).width;
       let xx = X(Date.UTC(yy, 0, 1));
       // Nudge a first year that sits against the left axis, but only if the
-      // year tick itself is in (or just left of) the plot and the nudged
-      // label won't collide with the next year (e.g. skip 2012 on 2Y mobile
-      // where 2014 is the next even year).
+      // nudged label won't collide with the next year.
       if (xx >= L - 8 && xx - tw / 2 < L + 2 && xx + tw / 2 < Rx) {
         const nudged = L + tw / 2 + (ST.mobile ? 3 : 4);
         const nextX = X(Date.UTC(yy + step, 0, 1));
-        if (nudged + tw / 2 + 2 <= nextX - tw / 2) {
+        if (nudged + tw / 2 + minGap <= nextX - tw / 2) {
           xx = nudged;
+        } else {
+          continue;
         }
       }
-      if (xx - tw / 2 >= L && xx + tw / 2 <= Rx) {
-        Tx(String(yy), xx, B + ST.yr, AX, "center");
-      }
+      const left = xx - tw / 2, right = xx + tw / 2;
+      if (left < L || right > Rx || left < lastRight + minGap) continue;
+      Tx(String(yy), xx, B + ST.yr, AX, "center");
+      lastRight = right;
     }
 
     const pts = [];
@@ -479,7 +444,7 @@
     last.lw = ST.lw;
 
     F(600, ST.lg);
-    const unit = COIN.unit || "Price";
+    const unit = "Price";
     const acc = unit + " \u2264 " + def.smaLabel + " \u27f6 ";
     const zone = "DCA ZONE";
     if (ST.mobile && isPrice) {
@@ -719,19 +684,9 @@
     return name + " is below " + nEl + " key averages: " + av;
   }
   function cardSentence(d) {
-    if (d.insufficient) {
-      return "Not enough history yet for the " + d.smaLabel +
-        " — it needs " + d.need + " weekly closes (" + COIN.name + " has " + d.weeks + ").";
-    }
-    return COIN.name + " has closed at or below its " + d.smaLabel + " in " +
-      d.closedBelow + " of " + d.closedN + " weeks.";
+    return "Not enough history yet for the " + d.smaLabel +
+      " — it needs " + d.need + " weekly closes (" + COIN.name + " has " + d.weeks + ").";
   }
-  function cardSentenceHtml(d) {
-    if (d.insufficient) return cardSentence(d);
-    return COIN.name + " has closed at or below its " + d.smaLabel +
-      " in <span class=\"count nowrap\">" + d.closedBelow + " of " + d.closedN + " weeks.</span>";
-  }
-
   function setNote() {
     const el = document.getElementById("note");
     if (!el || !SHARED) return;
@@ -741,9 +696,6 @@
       const d = new Date(live.at);
       el.textContent = "Live price · updated " + fmtHM(d);
       el.title = LIVE_SRC + " · " + d.toLocaleString();
-    } else if (!COIN.liveUrl) {
-      el.textContent = "Updated weekly · last close " + fmtBarEnd(first.lastWeek);
-      el.title = first.source || "weekly close";
     } else {
       el.textContent = "Cached close · " + fmtCached(first.pass);
       el.title = first.source || "cached";
@@ -764,13 +716,6 @@
       h.setAttribute("data-n", String(n));
       h.setAttribute("data-t", String(t));
     }
-    const sentences = {};
-    SHARED.cards.forEach(function (d) {
-      const text = cardSentence(d);
-      sentences[d.id] = text;
-      const el = document.querySelector('.card-sentence[data-sentence="' + d.id + '"]');
-      if (el) el.innerHTML = cardSentenceHtml(d);
-    });
     window.__PAGE = {
       coin: COIN.id,
       name: COIN.name,
@@ -779,10 +724,8 @@
       list: list,
       line: line,
       below: below.map(function (d) { return d.id; }),
-      sentences: sentences,
       price: SHARED.cards[0].lastPx,
       lastWeek: SHARED.cards[0].lastWeek,
-      lastCloseEnd: SHARED.cards[0].lastCloseEnd,
     };
   }
 
@@ -794,17 +737,6 @@
       if (on) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     });
-    const sel = document.querySelector(".coins-select");
-    if (sel) {
-      sel.value = COIN.id;
-      if (!sel._bound) {
-        sel._bound = true;
-        sel.addEventListener("change", function () {
-          const id = sel.value;
-          location.href = id === "btc" ? "index.html" : "index.html?coin=" + encodeURIComponent(id);
-        });
-      }
-    }
     const lede = document.getElementById("lede");
     if (lede) {
       lede.innerHTML = "The more of these averages " + COIN.name +
@@ -828,17 +760,8 @@
     return fetch(COIN.data)
       .then(function (r) { return r.json(); })
       .then(function (jw) {
-        var liveP;
-        if (SHARE || !COIN.liveUrl) {
-          liveP = Promise.resolve(null);
-        } else {
-          liveP = fetchLive().catch(function () { return null; });
-        }
+        var liveP = SHARE ? Promise.resolve(null) : fetchLive().catch(function () { return null; });
         return liveP.then(function (live) {
-          if (!COIN.liveUrl) {
-            const snap = parseSnapshot(jw.pass, jw.source);
-            jw = Object.assign({}, jw, { W: dropInProgressWeeks(jw.W || [], snap) });
-          }
           const cl0 = (jw.W || []).map(function (b) { return +b[4]; });
           const fShow = showStartIndex(cl0, CARD_DEFS);
           const built = CARD_DEFS.map(function (def) { return applyCard(jw, live, def, fShow); });
@@ -864,8 +787,7 @@
           }
           window.__LIVE = {
             ok: !!(live && live.price > 0),
-            source: live && live.price > 0 ? live.source
-              : (COIN.liveUrl ? "cached" : "weekly close"),
+            source: live && live.price > 0 ? live.source : "cached",
             url: live && live.url ? live.url : null,
             price: built[0].lastPx,
             cachedClose: built[0].cachedClose,

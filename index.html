@@ -6,49 +6,18 @@
   <title>BTC · SurfDCA</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="style.css">
-  <script>
-    (function () {
-      var c = (new URLSearchParams(location.search).get("coin") || "btc").toLowerCase();
-      if (c === "totales" || c === "total2es" || c === "total3es" || c === "others") {
-        document.documentElement.classList.add("is-cap");
-      }
-    })();
-  </script>
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
       <a class="logo" href="index.html">SurfDCA</a>
       <nav class="coins" aria-label="Choose coin">
-        <span class="coin-group">
-          <a href="index.html" data-coin="btc">BTC</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a href="index.html?coin=ltc" data-coin="ltc">LTC</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a href="index.html?coin=doge" data-coin="doge">DOGE</a>
-        </span>
-        <span class="coin-group">
-          <a href="index.html?coin=totales" data-coin="totales">TOTALES</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a href="index.html?coin=total2es" data-coin="total2es">TOTAL2ES</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a href="index.html?coin=total3es" data-coin="total3es">TOTAL3ES</a>
-          <span class="sep" aria-hidden="true">·</span>
-          <a href="index.html?coin=others" data-coin="others">OTHERS</a>
-        </span>
+        <a href="index.html" data-coin="btc">BTC</a>
+        <span class="sep" aria-hidden="true">·</span>
+        <a href="index.html?coin=ltc" data-coin="ltc">LTC</a>
+        <span class="sep" aria-hidden="true">·</span>
+        <a href="index.html?coin=doge" data-coin="doge">DOGE</a>
       </nav>
-      <label class="coins-select-wrap">
-        <span class="sr-only">Choose coin</span>
-        <select class="coins-select" aria-label="Choose coin">
-          <option value="btc">BTC</option>
-          <option value="ltc">LTC</option>
-          <option value="doge">DOGE</option>
-          <option value="totales">TOTALES</option>
-          <option value="total2es">TOTAL2ES</option>
-          <option value="total3es">TOTAL3ES</option>
-          <option value="others">OTHERS</option>
-        </select>
-      </label>
     </div>
   </header>
   <main class="page">
@@ -84,7 +53,6 @@
       <div class="stage">
         <canvas width="2400" height="1350" role="img" aria-label="BTC versus 2-year SMA, weekly, relative view"></canvas>
       </div>
-      <p class="card-sentence" data-sentence="2y"></p>
     </section>
 
     <section class="card" data-card="3y">
@@ -98,7 +66,6 @@
       <div class="stage">
         <canvas width="2400" height="1350" role="img" aria-label="BTC versus 3-year SMA, weekly, relative view"></canvas>
       </div>
-      <p class="card-sentence" data-sentence="3y"></p>
     </section>
 
     <section class="card" data-card="200w">
@@ -112,7 +79,6 @@
       <div class="stage">
         <canvas width="2400" height="1350" role="img" aria-label="BTC versus 200-week SMA, weekly, relative view"></canvas>
       </div>
-      <p class="card-sentence" data-sentence="200w"></p>
     </section>
 
     <section class="info" id="info">
@@ -135,14 +101,21 @@
       <div class="info-col">
         <h2>Good to know</h2>
         <ul>
-          <li class="gtk-coin">The charts use weekly closes, and the last point is the <span class="nowrap">live price.</span></li>
-          <li class="gtk-cap">The charts use weekly closes.</li>
-          <li>BTC, LTC and DOGE update live. TOTALES, TOTAL2ES, TOTAL3ES and OTHERS update after each <span class="nowrap">weekly close.</span></li>
+          <li>The charts use weekly closes, and the last point is the <span class="nowrap">live price.</span></li>
+          <li>BTC, LTC and DOGE update live.</li>
           <li>Not financial advice.</li>
         </ul>
       </div>
     </section>
   </main>
+
+  <div class="links-row" role="group" aria-label="Links">
+    <a class="pill" href="https://www.mydoge.com/Surf" target="_blank" rel="noopener">Buy me a coffee with DOGE</a>
+    <span class="links-pair">
+      <a class="pill" href="https://proinvite.kraken.com/9f1e/mo7cks8b" target="_blank" rel="noopener sponsored">Kraken</a>
+      <a class="pill" href="https://www.tradingview.com/pricing/?share_your_love=Crypto_Surf" target="_blank" rel="noopener sponsored">TradingView</a>
+    </span>
+  </div>
 
   <footer class="site-footer">
     <p>by <a class="handle" href="https://x.com/_CryptoSurf" target="_blank" rel="noopener">@_CryptoSurf</a></p>
