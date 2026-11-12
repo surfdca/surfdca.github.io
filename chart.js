@@ -11,7 +11,7 @@
   const GREY = "#c9ced6", LINE = "#6b7583", INK = "#f2f1ec";
   const SMA_C = "#8a919c";
   const ZONES = {
-    paddle: { id: "paddle", name: "PADDLE", color: "#2962ff",
+    paddle: { id: "paddle", name: "PADDLE", color: "#0f62fe",
       range: "below 1\u00d7", gloss: "build while it's quiet",
       action: "DCA in" },
     ride:   { id: "ride",   name: "RIDE",   color: "#00bcd4",

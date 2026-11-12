@@ -7,8 +7,8 @@
   --ax: #b0b6bf;
   --line: #2c333d;
   --btn: #1c222b;
-  --blue: #2962ff;
-  --paddle: #2962ff;
+  --blue: #0f62fe;
+  --paddle: #0f62fe;
   --ride: #00bcd4;
   --kick: #ff9800;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Inter, sans-serif;
@@ -414,3 +414,13 @@ body.share-only .wave-line { display: none; }
 .site-footer { text-align: center; }
 @media (max-width: 720px) { .info-howto p { font-size: 15px; } .info .disclaimer { font-size: 12px; } }
 .site-footer { padding-top: 28px; }
+
+.zone-row{display:flex;gap:40px;margin:4px 0 18px}
+.zone-item{display:flex;flex-direction:column;gap:2px}
+.zone-item>span:first-child{font-size:16px;letter-spacing:.02em}
+.zone-item .zr{font-size:15px;color:var(--text,#c9ced6);white-space:nowrap}
+@media (max-width:720px){.zone-row{gap:22px}.zone-item>span:first-child{font-size:15px}.zone-item .zr{font-size:13px}}
+.zone-item{align-items:center;text-align:center}
+.zone-item .zr{font-weight:600}
+.zone-row{gap:64px}
+@media (max-width:720px){.zone-row{gap:30px}}
