@@ -60,7 +60,7 @@
     id: "200w", n: 200, smaLabel: "200W SMA", short: "200W",
     titleRel: COIN.name + " vs 200W SMA",
     titlePrice: COIN.name + " price vs 200W SMA",
-    ariaRel: COIN.name + " versus 200-week SMA, weekly high-low bars, relative, three zones",
+    ariaRel: COIN.name + " versus 200-week SMA, weekly high-low bars, multiple, three zones",
     ariaPrice: COIN.name + " price versus 200-week SMA, weekly high-low bars, three zones",
     file: COIN.id + "-200w-weekly",
   }];
@@ -172,18 +172,18 @@
     const isPrice = mode === "price";
     return Object.assign({
       W: SHARE_W, H: SHARE_H, dpr: SHARE_D, mobile: false,
-    }, DESKTOP_ST, { Rgt: isPrice ? 70 : 4 });
+    }, DESKTOP_ST, { Rgt: 4, B: isPrice ? 488 : DESKTOP_ST.B });
   }
 
   function mobileLayout(cssW, mode) {
     const W = Math.max(280, Math.round(cssW));
     const isPrice = mode === "price";
-    const Pd = 14, Rgt = isPrice ? 58 : 8;
+    const Pd = 14, Rgt = 8;
     const tt = 18, ty = 28, wm = 12, fs = 11;
     const T = 44, plotH = Math.max(190, Math.round(W * 0.56));
     const B = T + plotH, yr = 17, lg = 12.5, lh = 17;
     // Clear gap between year-label glyphs and the metrics divider (~16px).
-    const ly1 = B + yr + 29;
+    const ly1 = B + yr + 29 + (isPrice ? 20 : 0);
     const ny = ly1;
     const H = ny + 50;
     const dpr = Math.min(3, Math.max(1, window.devicePixelRatio || 1));
@@ -511,15 +511,20 @@
     F(500, ST.mobile ? 11 : 18);
     const subW = x.measureText(tfLabel).width;
     const subGap = ST.mobile ? 8 : 14;
-    if (Pd + titleW + subGap + subW + 8 > wmX - wmW) {
-      ST = Object.assign({}, ST, { tt: Math.max(16, ST.tt - 1) });
+    // Shrink the title until the timeframe fits beside it, so it always shows.
+    let tt = ST.tt, tw = titleW;
+    while (tt > 13 && Pd + tw + subGap + subW + 8 > wmX - wmW) {
+      tt -= 0.5; F(600, tt); tw = x.measureText(title).width;
     }
+    if (tt !== ST.tt) ST = Object.assign({}, ST, { tt: tt });
     F(600, ST.tt);
     const titleW2 = x.measureText(title).width;
     Tx(title, Pd, ST.ty, INK);
     F(500, ST.mobile ? 11 : 18);
+    let titleEnd = Pd + titleW2;
     if (Pd + titleW2 + subGap + subW + 8 <= wmX - wmW) {
       Tx(tfLabel, Pd + titleW2 + subGap, ST.ty, ST.wmc);
+      titleEnd = Pd + titleW2 + subGap + subW;
     }
     F(500, ST.wm); Tx("@_CryptoSurf", wmX, ST.ty, ST.wmc, "right");
 
@@ -542,7 +547,8 @@
         hi = Math.max(hi, hiA[i] / sm[i]);
       }
     }
-    const HR = 1.15, top = hi * HR, bot = lo / HR;
+    const HR = 1.15, bot = lo / HR;
+    let top = hi * HR;
     const relTicks = [0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128];
     const usdTicks = (function () {
       const out = [];
@@ -551,11 +557,23 @@
       });
       return out;
     })();
+    if (isPrice) {
+      // End the price axis on a labelled round level just above the highest line.
+      const nxt = usdTicks.filter(function (v) { return v >= hi; })[0];
+      if (nxt) top = Math.max(top, nxt * 1.04);
+    } else {
+      // Relative view always shows the 2× line with room above it.
+      top = Math.max(top, 2.4);
+    }
     let ticks = (isPrice ? usdTicks : relTicks).filter(function (v) { return v >= bot && v <= top; });
     if (ST.mobile) {
       if (isPrice) {
         const keep = { 0.0001: 1, 0.001: 1, 0.01: 1, 0.1: 1, 1: 1, 10: 1, 20: 1, 100: 1, 1000: 1, 10000: 1, 100000: 1, 1e6: 1, 1e9: 1, 1e10: 1, 1e11: 1, 1e12: 1, 1e13: 1 };
-        ticks = ticks.filter(function (v) { return keep[v]; });
+        const topTick = ticks[ticks.length - 1];
+        let kept = ticks.filter(function (v) { return keep[v]; });
+        const prevKept = kept[kept.length - 1];
+        if (!keep[topTick] && (!prevKept || topTick / prevKept > 3)) kept.push(topTick);
+        ticks = kept;
       } else {
         // Keep the 1× and 2× references visible on a narrow screen.
         const keep = { 0.5: 1, 1: 1, 2: 1, 4: 1, 16: 1 };
@@ -679,17 +697,29 @@
       drawDashed(x, function () {
         linePts.forEach(function (q, k) { k ? x.lineTo(q.x, q.y2) : x.moveTo(q.x, q.y2); });
       }, "rgba(107,117,131,0.85)", ST.mobile ? 1.1 : 1.35, ST.mobile ? [3, 3] : [5, 4]);
-      const lastP = linePts[linePts.length - 1] || pts[pts.length - 1];
-      F(500, ST.mobile ? 10 : 12);
-      const labX = Wd - Pd;
-      let lab200 = lastP.ys + (ST.mobile ? 3 : 4);
-      let lab2x = lastP.y2 + (ST.mobile ? 3 : 4);
-      if (Math.abs(lab200 - lab2x) < (ST.mobile ? 11 : 13)) {
-        if (lab2x < lab200) { lab2x -= 6; lab200 += 6; }
-        else { lab2x += 6; lab200 -= 6; }
+      // Legend for the two reference lines (replaces right-edge labels).
+      const lgF = ST.mobile ? 10.5 : 15;
+      F(500, lgF);
+      const segW = ST.mobile ? 14 : 22, segGap = ST.mobile ? 5 : 8, itemGap = ST.mobile ? 12 : 22;
+      const t1 = "200W SMA", t2 = "2\u00d7 200W SMA";
+      const lgW = segW + segGap + x.measureText(t1).width + itemGap + segW + segGap + x.measureText(t2).width;
+      const inGap = ST.mobile ? 12 : 26;
+      let lx, ly;
+      if (false) {
+        lx = titleEnd + inGap; ly = ST.ty - (ST.mobile ? 2 : 4);
+      } else {
+        lx = L; ly = B + ST.yr + (ST.mobile ? 22 : 32);
       }
-      Tx("200W", labX, lab200, SMA_C, "right");
-      Tx("2\u00d7 200W", labX, lab2x, SMA_C, "right");
+      const midY = ly - lgF * 0.33;
+      x.save();
+      x.strokeStyle = SMA_C; x.lineWidth = ST.smaw; x.lineCap = "round";
+      x.beginPath(); x.moveTo(lx, midY); x.lineTo(lx + segW, midY); x.stroke();
+      x.restore();
+      Tx(t1, lx + segW + segGap, ly, SMA_C);
+      const lx2 = lx + segW + segGap + x.measureText(t1).width + itemGap;
+      drawDashed(x, function () { x.moveTo(lx2, midY); x.lineTo(lx2 + segW, midY); },
+        "rgba(138,145,156,0.95)", ST.mobile ? 1.1 : 1.35, ST.mobile ? [3, 3] : [5, 4]);
+      Tx(t2, lx2 + segW + segGap, ly, SMA_C);
     }
     if (!DATA.missingHL) drawZonedBars(x, pts, ST, L, Rx, T, B, Yr);
 
