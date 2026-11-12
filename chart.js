@@ -884,10 +884,36 @@
 
     function downloadPng() {
       const out = renderShareCanvas(MODE, TF);
+      const name = def.file + "-" + TF + "-" + MODE + ".png";
+      const url = out.toDataURL("image/png");
+      // Phones: open the native share sheet with the PNG (sync blob keeps the tap's user activation).
+      const touch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+      if (touch && navigator.share && navigator.canShare && window.File) {
+        try {
+          const bin = atob(url.split(",")[1]);
+          const arr = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+          const file = new File([arr], name, { type: "image/png" });
+          if (navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file] }).catch(function (err) {
+              if (err && err.name === "AbortError") return;
+              saveLink(URL.createObjectURL(file), name);
+            });
+            return;
+          }
+        } catch (e) { /* fall through to download */ }
+      }
+      saveLink(url, name);
+    }
+    function saveLink(href, name) {
       const a = document.createElement("a");
-      a.href = out.toDataURL("image/png");
-      a.download = def.file + "-" + TF + "-" + MODE + ".png";
+      a.href = href;
+      a.download = name;
+      a.rel = "noopener";
+      a.style.display = "none";
+      document.body.appendChild(a);
       a.click();
+      setTimeout(function () { a.remove(); if (href.indexOf("blob:") === 0) URL.revokeObjectURL(href); }, 1500);
     }
 
     group.addEventListener("click", function (e) {
