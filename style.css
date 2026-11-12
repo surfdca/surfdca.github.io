@@ -1,4 +1,4 @@
-/* Local preview: BTC / LTC / DOGE home page, built on the aligned weekly 2Y / 3Y / 200W cards. */
+/* Local preview: BTC 200W three-zone card. Not published. */
 :root {
   --bg: #0c0f14;
   --card: #12161c;
@@ -7,7 +7,10 @@
   --ax: #b0b6bf;
   --line: #2c333d;
   --btn: #1c222b;
-  --blue: #2e8bff;
+  --blue: #2962ff;
+  --paddle: #2962ff;
+  --ride: #00bcd4;
+  --kick: #ff9800;
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Inter, sans-serif;
 }
 * { box-sizing: border-box; }
@@ -32,7 +35,6 @@ html, body {
 
 /* Header */
 .site-header {
-  border-bottom: 1px solid var(--line);
   background: #0e1218;
 }
 .header-inner {
@@ -45,16 +47,32 @@ html, body {
   justify-content: space-between;
   gap: 10px 16px;
 }
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+}
 .logo {
   color: var(--ink);
   text-decoration: none;
   font-weight: 720;
-  font-size: 20px;
+  font-size: 26px;
   letter-spacing: -0.03em;
   line-height: 1;
-  padding: 6px 0;
+  padding: 4px 0 0;
 }
 .logo:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.tagline {
+  margin: 4px 0 0;
+  max-width: 42em;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 500;
+  color: #c3cad3;
+  letter-spacing: -0.01em;
+}
 .coins {
   display: flex;
   flex-wrap: nowrap;
@@ -123,7 +141,7 @@ html, body {
 }
 .topline {
   margin: 0 0 16px;
-  max-width: 22em;
+  max-width: 24em;
   font-weight: 780;
   font-size: 44px;
   line-height: 1.12;
@@ -133,6 +151,11 @@ html, body {
 }
 .topline .n { color: var(--blue); }
 .topline .n-above { color: #c9ced6; }
+.topline .zone,
+.z-paddle, .z-ride, .z-kick { font-weight: 780; }
+.z-paddle { color: var(--paddle); }
+.z-ride { color: var(--ride); }
+.z-kick { color: var(--kick); }
 .lede {
   margin: 0 0 12px;
   max-width: 38rem;
@@ -168,13 +191,15 @@ html, body {
   line-height: 1.45;
 }
 .toolbar {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   gap: 10px 12px;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 12px;
 }
+.toolbar .toggle { justify-self: start; }
+.toolbar .toggle-tf { justify-self: center; }
+.toolbar .share { justify-self: end; }
 .toggle {
   display: inline-flex;
   border: 1px solid var(--line);
@@ -231,15 +256,14 @@ html, body {
   height: auto;
   vertical-align: top;
 }
-/* Bottom info: three columns on desktop, stacked on mobile */
+/* Single full-width 'How it works' block — not a 3-col leftover. */
 .info {
   margin: 8px 0 0;
   padding: 22px 0 4px;
   border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px 36px;
-  align-items: start;
+}
+.info-howto {
+  max-width: 72rem;
 }
 .info h2 {
   margin: 0 0 12px;
@@ -248,32 +272,14 @@ html, body {
   letter-spacing: 0.02em;
   color: var(--ink);
 }
-.info ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.info li {
-  position: relative;
+.info-howto p {
   margin: 0 0 10px;
-  padding: 0 0 0 16px;
   font-size: 15px;
   line-height: 1.45;
   color: var(--ax);
   text-wrap: pretty;
 }
-.info li:last-child { margin-bottom: 0; }
-.info li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.65em;
-  width: 7px;
-  height: 2px;
-  border-radius: 1px;
-  background: var(--blue);
-  opacity: 0.7;
-}
+.info-howto p:last-child { margin-bottom: 0; }
 /* Links row (tip + Kraken + TradingView) above the footer */
 .links-row {
   display: flex;
@@ -355,25 +361,56 @@ body.share-only .share-target .stage { border-radius: 0; }
   .topline { font-size: 32px; max-width: none; }
   .lede { font-size: 17px; }
   .intro { margin-bottom: 24px; padding: 22px 0 44px; }
-  .info {
-    grid-template-columns: 1fr;
-    gap: 22px;
-    padding-top: 20px;
-  }
+  .info { padding-top: 20px; }
 }
 @media (max-width: 480px) {
   .header-inner { padding: 10px 12px; }
-  .logo { font-size: 18px; }
+  .logo { font-size: 22px; }
+  .tagline { font-size: 16px; }
   .page { padding: 8px 12px 28px; }
   .topline { font-size: 30px; }
   .lede { font-size: 16px; }
   .card { margin-bottom: 28px; }
-  .toolbar { margin-bottom: 10px; }
-  .toggle { flex: 1 1 auto; }
-  .toggle button { flex: 1 1 0; min-width: 0; }
-  .share { flex: 0 0 auto; }
-  .info li { font-size: 14px; }
+  .toolbar {
+    margin-bottom: 10px;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 8px 6px;
+  }
+  .toggle button, .share {
+    min-width: 0;
+    min-height: 36px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  /* If the row is too tight, wrap the timeframe under the others, still centred. */
+  @media (max-width: 360px) {
+    .toolbar { grid-template-columns: 1fr auto; }
+    .toolbar .toggle-tf {
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+  }
+  .info-howto p { font-size: 14px; }
   .note { font-size: 12px; }
   .links-row { padding: 12px 12px 2px; }
   .site-footer { padding: 8px 12px 22px; }
 }
+
+.links-pair { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.links-row { flex-direction: column; }
+.info .disclaimer { margin-top: 22px; color: var(--muted); font-size: 12px; }
+
+/* Wave lines: under the subtitle and above the links */
+.wave-line { max-width: 1248px; margin: 0 auto; padding: 0 16px; height: 44px; pointer-events: none; }
+.wave-line svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.intro { padding: 16px 0 28px; border-bottom: 1px solid var(--line); overflow: visible; }
+main.page + .wave-line { margin-top: 8px; }
+body.share-only .wave-line { display: none; }
+
+/* Readable How it works block + centered footer */
+.info-howto { max-width: 46rem; }
+.info-howto p { font-size: 16px; }
+.info .disclaimer { font-size: 12px; line-height: 1.6; }
+.site-footer { text-align: center; }
+@media (max-width: 720px) { .info-howto p { font-size: 15px; } .info .disclaimer { font-size: 12px; } }
+.site-footer { padding-top: 28px; }

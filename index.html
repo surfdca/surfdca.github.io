@@ -3,14 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BTC · SurfDCA</title>
+  <title>BTC 200W · SurfDCA</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a class="logo" href="index.html">SurfDCA</a>
+      <div class="brand">
+        <a class="logo" href="index.html">SurfDCA</a>
+        <p class="tagline" id="tagline">Crypto value zones. Price vs the 200-week SMA.</p>
+      </div>
       <nav class="coins" aria-label="Choose coin">
         <a href="index.html" data-coin="btc">BTC</a>
         <span class="sep" aria-hidden="true">·</span>
@@ -20,59 +23,36 @@
       </nav>
     </div>
   </header>
+  <div class="wave-line" aria-hidden="true">
+    <svg viewBox="0 0 1200 40" preserveAspectRatio="none" focusable="false">
+      <defs>
+        <linearGradient id="waveTop" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#6d7d92" stop-opacity="0"/>
+          <stop offset="0.16" stop-color="#6d7d92" stop-opacity="0.55"/>
+          <stop offset="0.84" stop-color="#6d7d92" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#6d7d92" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 22 C 160 4, 300 38, 460 18 S 760 2, 920 28 S 1080 38, 1200 12"
+            fill="none" stroke="url(#waveTop)" stroke-width="1.6"
+            stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
   <main class="page">
     <section class="intro" id="intro">
-      <div class="hero-wave" aria-hidden="true">
-        <svg viewBox="0 0 1200 40" preserveAspectRatio="none" focusable="false">
-          <defs>
-            <linearGradient id="heroWaveFade" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#6d7d92" stop-opacity="0"/>
-              <stop offset="0.16" stop-color="#6d7d92" stop-opacity="0.55"/>
-              <stop offset="0.84" stop-color="#6d7d92" stop-opacity="0.55"/>
-              <stop offset="1" stop-color="#6d7d92" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <path d="M0 22 C 160 10, 300 32, 460 18 S 760 8, 920 24 S 1080 32, 1200 16"
-                fill="none" stroke="url(#heroWaveFade)" stroke-width="1.5"
-                stroke-linecap="round" vector-effect="non-scaling-stroke"/>
-        </svg>
-      </div>
-      <h1 class="topline" id="topline">Loading the averages…</h1>
-      <p class="lede" id="lede">The more of these averages BTC is at or below, the better the <span class="nowrap">long-term</span> value for DCA.</p>
+      <h1 class="topline" id="topline">Loading the 200-week average…</h1>
       <p class="note" id="note" role="status" aria-live="polite">Loading…</p>
-    </section>
-
-    <section class="card" data-card="2y">
-      <div class="toolbar">
-        <div class="toggle" role="radiogroup" aria-label="2Y SMA chart view">
-          <button type="button" role="radio" aria-checked="true" data-mode="relative">Relative</button>
-          <button type="button" role="radio" aria-checked="false" data-mode="price">Price</button>
-        </div>
-        <button type="button" class="share">Share PNG</button>
-      </div>
-      <div class="stage">
-        <canvas width="2400" height="1350" role="img" aria-label="BTC versus 2-year SMA, weekly, relative view"></canvas>
-      </div>
-    </section>
-
-    <section class="card" data-card="3y">
-      <div class="toolbar">
-        <div class="toggle" role="radiogroup" aria-label="3Y SMA chart view">
-          <button type="button" role="radio" aria-checked="true" data-mode="relative">Relative</button>
-          <button type="button" role="radio" aria-checked="false" data-mode="price">Price</button>
-        </div>
-        <button type="button" class="share">Share PNG</button>
-      </div>
-      <div class="stage">
-        <canvas width="2400" height="1350" role="img" aria-label="BTC versus 3-year SMA, weekly, relative view"></canvas>
-      </div>
     </section>
 
     <section class="card" data-card="200w">
       <div class="toolbar">
-        <div class="toggle" role="radiogroup" aria-label="200W SMA chart view">
+        <div class="toggle" role="radiogroup" aria-label="Chart view">
           <button type="button" role="radio" aria-checked="true" data-mode="relative">Relative</button>
           <button type="button" role="radio" aria-checked="false" data-mode="price">Price</button>
+        </div>
+        <div class="toggle toggle-tf" role="radiogroup" aria-label="Timeframe">
+          <button type="button" role="radio" aria-checked="true" data-tf="weekly">Weekly</button>
+          <button type="button" role="radio" aria-checked="false" data-tf="monthly">Monthly</button>
         </div>
         <button type="button" class="share">Share PNG</button>
       </div>
@@ -82,39 +62,42 @@
     </section>
 
     <section class="info" id="info">
-      <div class="info-col">
-        <h2>How to use this</h2>
-        <ul>
-          <li>DCA means buying a fixed amount on a <span class="nowrap">regular schedule.</span></li>
-          <li>The more averages a coin is below, the better the long-term value <span class="nowrap">right now.</span></li>
-          <li>The idea is simple: the deeper the value, <span class="nowrap">the larger the DCA.</span></li>
-        </ul>
-      </div>
-      <div class="info-col">
-        <h2>What the three averages are</h2>
-        <ul>
-          <li>2Y: the average weekly close of the last 2 years. Price drops below it first.</li>
-          <li>3Y: the same idea over 3 years, sitting <span class="nowrap">in the middle.</span></li>
-          <li>200W: about 4 years of weekly closes. Dropping below it is the <span class="nowrap">rarest and deepest.</span></li>
-        </ul>
-      </div>
-      <div class="info-col">
-        <h2>Good to know</h2>
-        <ul>
-          <li>The charts use weekly closes, and the last point is the <span class="nowrap">live price.</span></li>
-          <li>BTC, LTC and DOGE update live.</li>
-          <li>Not financial advice.</li>
-        </ul>
+      <div class="info-howto">
+        <h2>How it works</h2>
+        <p>The chart shows price relative to its 200-week SMA, the average weekly close of roughly the last four years.</p>
+        <p><span class="z-paddle">PADDLE</span>: ≤ 1× → DCA in</p>
+        <p><span class="z-ride">RIDE</span>: 1× – 2× → HODL</p>
+        <p><span class="z-kick">KICK OUT</span>: ≥ 2× → DCA out</p>
+        <p>The 200W SMA filters out short-term swings and works as a slow long-term mean.</p>
+        <p class="coin-fact" data-coin="btc">Since 2015, every major BTC cycle low has traded at or below it.</p>
+        <p>Zones show where price sits, not when it will turn, and one zone can last months or years, so DCA spreads your buys or sells instead of guessing the bottom or top.</p>
+        <p class="disclaimer">Coins with fewer than 200 weekly closes show no zone yet, because the average can't be calculated.<br>Not financial advice. For entertainment purposes only.</p>
       </div>
     </section>
   </main>
 
+  <div class="wave-line" aria-hidden="true">
+    <svg viewBox="0 0 1200 40" preserveAspectRatio="none" focusable="false">
+      <defs>
+        <linearGradient id="waveBottom" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#6d7d92" stop-opacity="0"/>
+          <stop offset="0.16" stop-color="#6d7d92" stop-opacity="0.55"/>
+          <stop offset="0.84" stop-color="#6d7d92" stop-opacity="0.55"/>
+          <stop offset="1" stop-color="#6d7d92" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 22 C 160 4, 300 38, 460 18 S 760 2, 920 28 S 1080 38, 1200 12"
+            fill="none" stroke="url(#waveBottom)" stroke-width="1.6"
+            stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
+
   <div class="links-row" role="group" aria-label="Links">
-    <a class="pill" href="https://www.mydoge.com/Surf" target="_blank" rel="noopener">Buy me a coffee with DOGE</a>
     <span class="links-pair">
-      <a class="pill" href="https://proinvite.kraken.com/9f1e/mo7cks8b" target="_blank" rel="noopener sponsored">Kraken</a>
-      <a class="pill" href="https://www.tradingview.com/pricing/?share_your_love=Crypto_Surf" target="_blank" rel="noopener sponsored">TradingView</a>
+      <a class="pill" href="https://proinvite.kraken.com/9f1e/mo7cks8b" target="_blank" rel="noopener sponsored">Trade on Kraken</a>
+      <a class="pill" href="https://www.tradingview.com/pricing/?share_your_love=Crypto_Surf" target="_blank" rel="noopener sponsored">Chart on TradingView</a>
     </span>
+    <a class="pill" href="https://www.mydoge.com/Surf" target="_blank" rel="noopener">Buy me a coffee with DOGE</a>
   </div>
 
   <footer class="site-footer">
