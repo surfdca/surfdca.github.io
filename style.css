@@ -384,10 +384,14 @@ body.share-only .share-target .stage { border-radius: 0; }
   }
   /* If the row is too tight, wrap the timeframe under the others, still centred. */
   @media (max-width: 360px) {
+    /* Two tidy rows: view toggle and Share on top, timeframe below, all left-aligned. */
     .toolbar { grid-template-columns: 1fr auto; }
+    .toolbar .toggle { grid-row: 1; grid-column: 1; }
+    .toolbar .share { grid-row: 1; grid-column: 2; }
     .toolbar .toggle-tf {
+      grid-row: 2;
       grid-column: 1 / -1;
-      justify-self: center;
+      justify-self: start;
     }
   }
   .info-howto p { font-size: 14px; }
@@ -424,3 +428,14 @@ body.share-only .wave-line { display: none; }
 .zone-item .zr{font-weight:600}
 .zone-row{gap:64px}
 @media (max-width:720px){.zone-row{gap:30px}}
+@media (max-width: 360px) {
+  .zone-row { gap: 0; justify-content: space-between; }
+  .zone-item span:first-child { font-size: 13px; }
+  .zone-item .zr { font-size: 11.5px; }
+}
+@media (max-width: 400px) {
+  .zone-row { gap: 0; justify-content: space-between; }
+}
+@media (max-width: 360px) {
+  .tagline { font-size: 14.5px; }
+}

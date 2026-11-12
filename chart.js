@@ -999,7 +999,7 @@
     const mo = SHARED.monthly;
     const tag = document.getElementById("tagline");
     if (tag) {
-      tag.textContent = "Crypto value zones. Price vs the 200-week SMA.";
+      tag.textContent = "Crypto value zones. Price vs the 200W SMA.";
     }
     const h = document.getElementById("topline");
     if (h) {
