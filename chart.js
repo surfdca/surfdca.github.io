@@ -59,7 +59,7 @@
   const CARD_DEFS = [{
     id: "200w", n: 200, smaLabel: "200W SMA", short: "200W",
     titleRel: COIN.name + " vs 200W SMA",
-    titlePrice: COIN.name + " price vs 200W SMA",
+    titlePrice: COIN.name + " vs 200W SMA",
     ariaRel: COIN.name + " versus 200-week SMA, weekly high-low bars, multiple, three zones",
     ariaPrice: COIN.name + " price versus 200-week SMA, weekly high-low bars, three zones",
     file: COIN.id + "-200w-weekly",
