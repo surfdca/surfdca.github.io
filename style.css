@@ -439,3 +439,10 @@ body.share-only .wave-line { display: none; }
 @media (max-width: 360px) {
   .tagline { font-size: 14.5px; }
 }
+
+/* How it works: three sections */
+.info h2.sub{margin-top:26px}
+.info-howto p.zl{margin-bottom:6px}
+.info-howto p.zl + h2.sub{margin-top:28px}
+.info-howto p.zl:last-of-type{margin-bottom:0}
+.z-paddle,.z-ride,.z-kick{white-space:nowrap}

@@ -1,4 +1,4 @@
-/* BTC vs 200W SMA — three zones (PADDLE / RIDE / KICK OUT).
+/* BTC vs 200W SMA — three zones (PADDLE / RIDE / KICK-OUT).
    Weekly or monthly high-low bars (real OHLC from CRYPTO:BTCUSD), Relative / Price and Weekly / Monthly toggles. Live Binance BTCUSDT
    (no key), falling back to the cached close. On-page mobile: CSS
    width + DPR backing store. Share PNG is always the 1200×675
@@ -17,7 +17,7 @@
     ride:   { id: "ride",   name: "RIDE",   color: "#00bcd4",
       range: "1\u00d7\u20132\u00d7", gloss: "stay in, keep the plan",
       action: "HODL" },
-    kick:   { id: "kick",   name: "KICK OUT", color: "#ff9800",
+    kick:   { id: "kick",   name: "KICK-OUT", color: "#ff9800",
       range: "above 2\u00d7", gloss: "take some profit",
       action: "DCA out" },
   };
@@ -876,7 +876,7 @@
       const items = [
         { name: "PADDLE", range: " \u2192 DCA in", color: "#0f62fe" },
         { name: "RIDE", range: " \u2192 HODL", color: "#00bcd4" },
-        { name: "KICK OUT", range: " \u2192 DCA out", color: "#ff9800" },
+        { name: "KICK-OUT", range: " \u2192 DCA out", color: "#ff9800" },
       ];
       const keySize = 15, itemGap = 28, rangeCol = "#c9ced6";
       const widths = items.map(function (it) {
