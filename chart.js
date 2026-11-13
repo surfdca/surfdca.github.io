@@ -874,9 +874,9 @@
       Tx("by @_CryptoSurf", wmX, ST.ty + 20, ST.wmc, "right");
 
       const items = [
-        { name: "PADDLE", range: " \u2264 1\u00d7", color: "#0f62fe" },
-        { name: "RIDE", range: " 1\u00d7 \u2013 2\u00d7", color: "#00bcd4" },
-        { name: "KICK OUT", range: " \u2265 2\u00d7", color: "#ff9800" },
+        { name: "PADDLE", range: " \u2192 DCA in", color: "#0f62fe" },
+        { name: "RIDE", range: " \u2192 HODL", color: "#00bcd4" },
+        { name: "KICK OUT", range: " \u2192 DCA out", color: "#ff9800" },
       ];
       const keySize = 15, itemGap = 28, rangeCol = "#c9ced6";
       const widths = items.map(function (it) {
