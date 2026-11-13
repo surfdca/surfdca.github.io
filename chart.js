@@ -506,7 +506,8 @@
     F(600, ST.tt);
     const titleW = x.measureText(title).width;
     F(500, ST.wm);
-    const wmW = x.measureText("@_CryptoSurf").width;
+    const wmText = ST.share ? "surfdca.github.io" : "@_CryptoSurf";
+    const wmW = x.measureText(wmText).width;
     const wmX = Wd - Pd;
     F(500, ST.mobile ? 11 : 18);
     const subW = x.measureText(tfLabel).width;
@@ -526,7 +527,7 @@
       Tx(tfLabel, Pd + titleW2 + subGap, ST.ty, ST.wmc);
       titleEnd = Pd + titleW2 + subGap + subW;
     }
-    F(500, ST.wm); Tx("@_CryptoSurf", wmX, ST.ty, ST.wmc, "right");
+    F(500, ST.wm); Tx(wmText, wmX, ST.ty, ST.share ? INK : ST.wmc, "right");
 
     const W = DATA.W, cl = DATA.cl, sm = DATA.sm, f = DATA.f;
     const tStart = ms(W[f][0]);
@@ -861,17 +862,58 @@
       return setMode(mode == null ? MODE : mode, opts);
     }
 
+    function drawShareExtras(x, mode, ST, meta) {
+      const F = function (w, z) { x.font = w + " " + z + "px " + FONT; };
+      const Tx = function (s, X, Y, col, al) {
+        x.fillStyle = col; x.textAlign = al || "left"; x.fillText(s, X, Y);
+      };
+      x.textBaseline = "alphabetic";
+      const wmX = ST.W - ST.Pd;
+      // Small author credit under the site name.
+      F(500, 13);
+      Tx("by @_CryptoSurf", wmX, ST.ty + 20, ST.wmc, "right");
+
+      const items = [
+        { name: "PADDLE", range: " \u2264 1\u00d7", color: "#0f62fe" },
+        { name: "RIDE", range: " 1\u00d7 \u2013 2\u00d7", color: "#00bcd4" },
+        { name: "KICK OUT", range: " \u2265 2\u00d7", color: "#ff9800" },
+      ];
+      const keySize = 15, itemGap = 28, rangeCol = "#c9ced6";
+      const widths = items.map(function (it) {
+        F(700, keySize);
+        const nw = x.measureText(it.name).width;
+        F(600, keySize);
+        return { nw: nw, rw: x.measureText(it.range).width, w: nw + x.measureText(it.range).width };
+      });
+      let total = 0;
+      widths.forEach(function (w, i) { total += w.w + (i ? itemGap : 0); });
+      const isPrice = mode === "price";
+      // Same row as the Price-view SMA legend (share Multiple also uses that band).
+      const y = meta.B + ST.yr + 32;
+      let cx = (meta.L + meta.Rx) / 2 - total / 2;
+      items.forEach(function (it, i) {
+        F(700, keySize); Tx(it.name, cx, y, it.color);
+        cx += widths[i].nw;
+        F(600, keySize); Tx(it.range, cx, y, rangeCol);
+        cx += widths[i].rw + itemGap;
+      });
+    }
+
     function renderShareCanvas(mode, tf) {
       const prev = TF;
       if (tf) TF = tf === "monthly" ? "monthly" : "weekly";
       const DATA = activeData();
       const layout = desktopLayout(mode);
+      // Same plot bottom as Price, so the zone key gets a clear row under the years.
+      if (mode !== "price") layout.B = 488;
+      layout.share = true;
       const off = document.createElement("canvas");
       off.width = SHARE_W * SHARE_D;
       off.height = SHARE_H * SHARE_D;
       const x = off.getContext("2d");
       x.scale(SHARE_D, SHARE_D);
-      drawInto(x, mode, layout, DATA, def);
+      const meta = drawInto(x, mode, layout, DATA, def);
+      drawShareExtras(x, mode, layout, meta);
       TF = prev;
       const out = document.createElement("canvas");
       out.width = SHARE_W;
