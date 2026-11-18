@@ -11,13 +11,13 @@
   const GREY = "#c9ced6", LINE = "#6b7583", INK = "#f2f1ec";
   const SMA_C = "#8a919c";
   const ZONES = {
-    paddle: { id: "paddle", name: "PADDLE", color: "#0f62fe",
+    paddle: { id: "paddle", name: "ACCUMULATION", color: "#2e8bff",
       range: "below 1\u00d7", gloss: "build while it's quiet",
       action: "DCA in" },
-    ride:   { id: "ride",   name: "RIDE",   color: "#00bcd4",
+    ride:   { id: "ride",   name: "NEUTRAL", color: "#e6e8eb",
       range: "1\u00d7\u20132\u00d7", gloss: "stay in, keep the plan",
       action: "HODL" },
-    kick:   { id: "kick",   name: "KICK-OUT", color: "#ff9800",
+    kick:   { id: "kick",   name: "DISTRIBUTION", color: "#ff9800",
       range: "above 2\u00d7", gloss: "take some profit",
       action: "DCA out" },
   };
@@ -32,7 +32,7 @@
     lg: 16.5, ly: 499, lh: 22, ny: 578,
     ml: 16, mlc: "#a7adb6", mv: 30,
     mly: 26, mvy: 62,
-    lw: 3, smaw: 1.75, yearStep: 2,
+    lw: 3, smaw: 1.25, yearStep: 2,
   };
   const DAY = 864e5, PADW = 43, PADM = 10, MOBILE_MAX = 720;
   const BN = "https://data-api.binance.vision/api/v3/ticker/price?symbol=";
@@ -194,7 +194,7 @@
       fs: fs, T: T, B: B, yr: yr,
       lg: lg, ly: ly1, lh: lh, ly1: ly1, ny: ny,
       ml: 10, mlc: "#a7adb6", mv: 17, mly: 18, mvy: 38,
-      lw: 2.25, smaw: 1.5, yearStep: 4,
+      lw: 2.25, smaw: 1.1, yearStep: 4,
     };
   }
 
@@ -600,7 +600,7 @@
       const is2 = !isPrice && v === 2;
       if (is1) {
         x.fillStyle = LINE;
-        x.fillRect(L, y - 1, Rx - L, 2);
+        x.fillRect(L, y, Rx - L, 1);
       } else if (is2) {
         // Drawn as a dashed reference after the other ticks.
       } else {
@@ -874,9 +874,9 @@
       Tx("by @_CryptoSurf", wmX, ST.ty + 20, ST.wmc, "right");
 
       const items = [
-        { name: "PADDLE", range: " \u2192 DCA in", color: "#0f62fe" },
-        { name: "RIDE", range: " \u2192 HODL", color: "#00bcd4" },
-        { name: "KICK-OUT", range: " \u2192 DCA out", color: "#ff9800" },
+        { name: "ACCUMULATION", range: "", color: "#2e8bff" },
+        { name: "NEUTRAL", range: "", color: "#e6e8eb" },
+        { name: "DISTRIBUTION", range: "", color: "#ff9800" },
       ];
       const keySize = 15, itemGap = 28, rangeCol = "#c9ced6";
       const widths = items.map(function (it) {
@@ -1077,8 +1077,7 @@
         const z = ZONES[d.liveZone];
         h.innerHTML = COIN.name + " is in the " +
           '<span class="zone z-' + z.id + ' nowrap">' + z.name + "</span>" +
-          " zone " +
-          '<span class="nowrap">\u2192 ' + z.action + "</span>";
+          " zone";
       }
     }
     window.__PAGE = {
