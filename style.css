@@ -73,35 +73,94 @@ html, body {
   color: #c3cad3;
   letter-spacing: -0.01em;
 }
-.coins {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 0.15rem 0.4rem;
+.site-header { position: relative; z-index: 30; }
+.coin-nav {
+  position: relative;
   margin-left: auto;
+}
+.coin-dd-btn {
+  appearance: none;
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
   font: 650 13px/1 var(--font);
   letter-spacing: 0.05em;
+  padding: 9px 32px 9px 14px;
+  min-height: 40px;
+  min-width: 7.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  text-align: left;
 }
-.coins a {
+.coin-dd-btn::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-top-color: #8a919c;
+  margin-top: -2px;
+  pointer-events: none;
+}
+.coin-dd-btn:hover { background: #1a2028; }
+.coin-dd-btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.coin-dd-btn[aria-expanded="true"]::after {
+  margin-top: -7px;
+  border-top-color: transparent;
+  border-bottom-color: #8a919c;
+}
+.coin-dd {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 100%;
+  width: max-content;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 0 8px;
+  z-index: 40;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+.coin-dd-group + .coin-dd-group {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+.coin-dd-label {
+  padding: 6px 14px 4px;
+  font: 650 11px/1.2 var(--font);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.coin-dd a {
+  display: block;
+  padding: 8px 14px;
   color: #8a919c;
   text-decoration: none;
-  padding: 6px 2px;
+  font: 650 13px/1.25 var(--font);
+  letter-spacing: 0.05em;
 }
-.coins a:hover { color: #d7dbe2; }
-.coins a.is-current {
+.coin-dd a:hover,
+.coin-dd a:focus-visible {
+  background: #1a2028;
+  color: #d7dbe2;
+}
+.coin-dd a:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+.coin-dd a.is-current {
   color: var(--ink);
   font-weight: 750;
-}
-.coins a:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 3px;
-}
-.coins .sep {
-  color: #3c4450;
-  font-weight: 400;
-  pointer-events: none;
-  user-select: none;
 }
 /* Soft wave behind the hero only — not behind the charts. */
 .page {
@@ -367,6 +426,14 @@ body.share-only .share-target .stage { border-radius: 0; }
   .header-inner { padding: 10px 12px; }
   .logo { font-size: 22px; }
   .tagline { font-size: 16px; }
+  .coin-dd-btn {
+    min-height: 36px;
+    min-width: 7rem;
+    padding: 6px 28px 6px 12px;
+    font-size: 12px;
+  }
+  .coin-dd-btn::after { right: 10px; }
+  .coin-dd a { padding: 9px 14px; font-size: 13px; }
   .page { padding: 8px 12px 28px; }
   .topline { font-size: 30px; }
   .lede { font-size: 16px; }

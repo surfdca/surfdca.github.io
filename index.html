@@ -14,12 +14,22 @@
         <a class="logo" href="index.html">SurfDCA</a>
         <p class="tagline" id="tagline">Crypto zones based on price vs the 200W SMA.</p>
       </div>
-      <nav class="coins" aria-label="Choose coin">
-        <a href="index.html" data-coin="btc">BTC</a>
-        <span class="sep" aria-hidden="true">·</span>
-        <a href="index.html?coin=ltc" data-coin="ltc">LTC</a>
-        <span class="sep" aria-hidden="true">·</span>
-        <a href="index.html?coin=doge" data-coin="doge">DOGE</a>
+      <nav class="coin-nav" aria-label="Choose coin or market cap">
+        <button type="button" class="coin-dd-btn" id="coin-dd-btn"
+                aria-haspopup="menu" aria-expanded="false" aria-controls="coin-dd">BTC</button>
+        <div class="coin-dd" id="coin-dd" hidden role="menu" aria-labelledby="coin-dd-btn">
+          <div class="coin-dd-group" role="group" aria-labelledby="coin-dd-coins">
+            <div class="coin-dd-label" id="coin-dd-coins">Coins</div>
+            <a href="index.html" data-coin="btc" role="menuitem">BTC</a>
+            <a href="index.html?coin=ltc" data-coin="ltc" role="menuitem">LTC</a>
+            <a href="index.html?coin=doge" data-coin="doge" role="menuitem">DOGE</a>
+          </div>
+          <div class="coin-dd-group" role="group" aria-labelledby="coin-dd-caps">
+            <div class="coin-dd-label" id="coin-dd-caps">Market caps</div>
+            <a href="index.html?coin=totales" data-coin="totales" role="menuitem">TOTALES</a>
+            <a href="index.html?coin=others" data-coin="others" role="menuitem">OTHERS</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -64,10 +74,10 @@
     <section class="info" id="info">
       <div class="info-howto">
         <h2>How it works</h2>
-        <p>The chart shows zones based on price relative to its 200-week SMA:</p>
-        <p class="zl"><span class="z-paddle">ACCUMULATION</span> zone: Price ≤ 1× 200W SMA → DCA in</p>
-        <p class="zl"><span class="z-ride">NEUTRAL</span> zone: Price = 1× – 2× 200W SMA → Hold</p>
-        <p class="zl"><span class="z-kick">DISTRIBUTION</span> zone: Price ≥ 2× 200W SMA → DCA out</p>
+        <p id="howto-lead">The chart shows zones based on price relative to its 200-week SMA:</p>
+        <p class="zl"><span class="z-paddle">ACCUMULATION</span> zone: <span class="unit-word">Price</span> ≤ 1× 200W SMA → DCA in</p>
+        <p class="zl"><span class="z-ride">NEUTRAL</span> zone: <span class="unit-word">Price</span> = 1× – 2× 200W SMA → Hold</p>
+        <p class="zl"><span class="z-kick">DISTRIBUTION</span> zone: <span class="unit-word">Price</span> ≥ 2× 200W SMA → DCA out</p>
         <h2 class="sub">Why the 200W SMA?</h2>
         <p>The 200W SMA is the average weekly close of roughly the last 4 years. It filters out short-term swings and works as a slow long-term mean.</p>
         <p>Historically, most major cycle lows have traded at or below it.</p>

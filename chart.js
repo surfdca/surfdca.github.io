@@ -46,10 +46,16 @@
     doge: { id: "doge", name: "DOGE", data: "data/doge-weekly.json",
             monthly: "data/doge-monthly.json",
             unit: "Price", liveUrl: BN + "DOGEUSDT", liveSrc: "Binance DOGEUSDT" },
+    totales: { id: "totales", name: "TOTALES", data: "data/totales-weekly.json",
+            monthly: "data/totales-monthly.json",
+            unit: "Market cap", liveUrl: null, liveSrc: "" },
+    others: { id: "others", name: "OTHERS", data: "data/others-weekly.json",
+            monthly: "data/others-monthly.json",
+            unit: "Market cap", liveUrl: null, liveSrc: "" },
   };
   const Q = new URLSearchParams(location.search);
   const COIN = COIN_DEFS[(Q.get("coin") || "btc").toLowerCase()] || COIN_DEFS.btc;
-  const LIVE_URL = COIN.liveUrl;
+  const LIVE_URL = COIN.liveUrl || null;
   const LIVE_SRC = COIN.liveSrc;
   const SHARE = Q.get("share") === "1" || Q.get("cache") === "1";
   const START = Q.get("mode") === "price" ? "price" : "relative";
@@ -61,7 +67,7 @@
     titleRel: COIN.name + " vs 200W SMA",
     titlePrice: COIN.name + " vs 200W SMA",
     ariaRel: COIN.name + " versus 200-week SMA, weekly high-low bars, multiple, three zones",
-    ariaPrice: COIN.name + " price versus 200-week SMA, weekly high-low bars, three zones",
+    ariaPrice: COIN.name + " " + (COIN.unit === "Market cap" ? "market cap" : "price") + " versus 200-week SMA, weekly high-low bars, three zones",
     file: COIN.id + "-200w-weekly",
   }];
 
@@ -153,6 +159,7 @@
   }
 
   function fetchLive() {
+    if (!LIVE_URL) return Promise.resolve(null);
     const ac = new AbortController();
     const t = setTimeout(function () { ac.abort(); }, 5000);
     return fetch(LIVE_URL, { signal: ac.signal, cache: "no-store" })
@@ -734,10 +741,12 @@
     x.fillStyle = "#2c333d";
     x.fillRect(Pd, ST.ny, Wd - 2 * Pd, 1);
 
+    const unitLab = (COIN.unit || "Price").toUpperCase();
+    const ratioLab = COIN.unit === "Market cap" ? "CAP / " + def.short : "PRICE / " + def.short;
     const nums = [
-      ["PRICE", fv(price), INK],
+      [unitLab, fv(price), INK],
       [def.smaLabel, fv(smaV), INK],
-      ["PRICE / " + def.short, mult.toFixed(2) + "x", zCol],
+      [ratioLab, mult.toFixed(2) + "x", zCol],
     ];
     const cw = (Wd - 2 * Pd) / 3;
     nums.forEach(function (q, jj) {
@@ -817,7 +826,7 @@
       canvas.setAttribute(
         "aria-label",
         (mode === "price" ? def.ariaPrice : def.ariaRel) +
-          ", " + tfWord + " high-low bars. Price " + fv(DATA.lastPx) + ", " + def.smaLabel + " " + fv(DATA.lastSma) +
+          ", " + tfWord + " high-low bars. " + (COIN.unit === "Market cap" ? "Market cap " : "Price ") + fv(DATA.lastPx) + ", " + def.smaLabel + " " + fv(DATA.lastSma) +
           ", " + (DATA.lastPx / DATA.lastSma).toFixed(2) + " times, " +
           ZONES[zoneOfR(DATA.lastPx / DATA.lastSma)].name + " zone."
       );
@@ -1054,6 +1063,9 @@
       const d = new Date(live.at);
       el.textContent = "Live price \u00b7 updated " + fmtHM(d);
       el.title = LIVE_SRC + " \u00b7 " + d.toLocaleString();
+    } else if (COIN.unit === "Market cap") {
+      el.textContent = "Market cap \u00b7 last weekly close \u00b7 " + fmtCached(first.pass);
+      el.title = first.source || "cached";
     } else {
       el.textContent = "Cached close \u00b7 " + fmtCached(first.pass);
       el.title = first.source || "cached";
@@ -1065,10 +1077,19 @@
     setNote();
     const d = SHARED.weekly || SHARED.cards[0];
     const mo = SHARED.monthly;
+    const unitLower = COIN.unit === "Market cap" ? "market cap" : "price";
+    const unitLabel = COIN.unit === "Market cap" ? "Market cap" : "Price";
     const tag = document.getElementById("tagline");
     if (tag) {
-      tag.textContent = "Crypto zones based on price vs the 200W SMA.";
+      tag.textContent = "Crypto zones based on " + unitLower + " vs the 200W SMA.";
     }
+    const lead = document.getElementById("howto-lead");
+    if (lead) {
+      lead.textContent = "The chart shows zones based on " + unitLower + " relative to its 200-week SMA:";
+    }
+    document.querySelectorAll(".unit-word").forEach(function (el) {
+      el.textContent = unitLabel;
+    });
     const h = document.getElementById("topline");
     if (h) {
       if (d.insufficient) {
@@ -1113,17 +1134,87 @@
     };
   }
 
+  function bindCoinDropdown(btn, menu, nav) {
+    function options() {
+      return Array.prototype.slice.call(menu.querySelectorAll("a[data-coin]"));
+    }
+    function isOpen() {
+      return btn.getAttribute("aria-expanded") === "true";
+    }
+    function openMenu() {
+      menu.hidden = false;
+      btn.setAttribute("aria-expanded", "true");
+      const cur = menu.querySelector("a.is-current") || options()[0];
+      if (cur) cur.focus();
+    }
+    function closeMenu(opts) {
+      menu.hidden = true;
+      btn.setAttribute("aria-expanded", "false");
+      if (!opts || opts.focus !== false) btn.focus();
+    }
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isOpen()) closeMenu({ focus: false });
+      else openMenu();
+    });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        if (!isOpen()) openMenu();
+      }
+    });
+    menu.addEventListener("keydown", function (e) {
+      const items = options();
+      const i = items.indexOf(document.activeElement);
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeMenu();
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        items[(Math.max(i, 0) + 1) % items.length].focus();
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        items[(i <= 0 ? items.length : i) - 1].focus();
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        items[0].focus();
+      } else if (e.key === "End") {
+        e.preventDefault();
+        items[items.length - 1].focus();
+      } else if (e.key === "Tab") {
+        closeMenu({ focus: false });
+      }
+    });
+    document.addEventListener("click", function (e) {
+      if (isOpen() && !nav.contains(e.target)) closeMenu({ focus: false });
+    });
+  }
+
   function initChrome() {
     document.title = COIN.name + " 200W \u00b7 SurfDCA";
-    document.querySelectorAll(".coins a[data-coin]").forEach(function (a) {
+    const btn = document.getElementById("coin-dd-btn");
+    const menu = document.getElementById("coin-dd");
+    const nav = document.querySelector(".coin-nav");
+    if (btn) {
+      btn.textContent = COIN.name;
+      btn.setAttribute("aria-label", "Choose coin or market cap, current " + COIN.name);
+    }
+    document.querySelectorAll(".coin-dd a[data-coin]").forEach(function (a) {
       const on = a.getAttribute("data-coin") === COIN.id;
       a.classList.toggle("is-current", on);
-      if (on) a.setAttribute("aria-current", "page");
-      else a.removeAttribute("aria-current");
+      if (on) {
+        a.setAttribute("aria-current", "page");
+        a.setAttribute("aria-checked", "true");
+      } else {
+        a.removeAttribute("aria-current");
+        a.removeAttribute("aria-checked");
+      }
     });
     document.querySelectorAll(".coin-fact").forEach(function (el) {
       el.hidden = el.getAttribute("data-coin") !== COIN.id;
     });
+    if (btn && menu && nav) bindCoinDropdown(btn, menu, nav);
   }
 
   function boot() {
@@ -1147,7 +1238,7 @@
         const jw = pack[0], jm = pack[1];
         if (!jw || !jw.W || !jw.W.length) throw new Error("weekly OHLC missing");
         if (!jm || !(jm.M || jm.W) || !(jm.M || jm.W).length) throw new Error("monthly OHLC missing");
-        var liveP = SHARE ? Promise.resolve(null) : fetchLive().catch(function () { return null; });
+        var liveP = (SHARE || !LIVE_URL) ? Promise.resolve(null) : fetchLive().catch(function () { return null; });
         return liveP.then(function (live) {
           const def = CARD_DEFS[0];
           const weekly = applyCard(jw, live, def);
